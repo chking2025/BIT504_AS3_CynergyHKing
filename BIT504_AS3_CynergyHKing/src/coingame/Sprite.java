@@ -19,6 +19,10 @@ public class Sprite {
 	
 	// GETTERS
 	
+	public static Color getGetColour() {
+		return getColour;
+	}
+
 	public static int getxPosition() {
 		return xPosition;
 	}
@@ -53,6 +57,10 @@ public class Sprite {
 	
 	
 	// SETTERS
+	
+	public static void setGetColour(Color getColour) {
+		Sprite.getColour = getColour;
+	}
 	
 	public static void setxPosition(int xPosition) {
 		Sprite.xPosition = xPosition;
@@ -97,9 +105,33 @@ public class Sprite {
 		
 	} // end of getRectangle method
 	
+	//--------------------------------------------------------------------------//
 	
+	public void setXPosition (int newXPosition, int panelWidth) {
+		
+		xPosition = newXPosition;
+		
+		if (xPosition < 0) {
+	           xPosition = 0;
+	       } else if (xPosition + width > panelWidth) {
+	           xPosition = panelWidth - width;
+	       }
+		
+	} // end of setXPosition method
 	
+	//--------------------------------------------------------------------------//
 	
+	public void  setYPosition (int newYPosition, int panelHeight) {
+		
+		yPosition = newYPosition;
+
+	      if (yPosition < 0) {
+	          yPosition = 0;
+	      } else if (yPosition + height > panelHeight) {
+	          yPosition = panelHeight - height;
+	      }
+		
+	} // end of setYPosition method
 	
 	
 	
