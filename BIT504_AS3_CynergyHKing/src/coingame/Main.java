@@ -1,10 +1,19 @@
 package coingame;
+import javax.swing.*;
 
-public class Main {
+/* Cynergy Huaki-King
+ * BIT504: Assessment 3
+ * 5009119
+ */
+
+public class Main extends JFrame {
+	
+	
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
+		
 
-	}
+	} // end of main method
 
-}
+} // end of Main class
