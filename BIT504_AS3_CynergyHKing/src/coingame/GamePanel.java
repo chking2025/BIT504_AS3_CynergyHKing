@@ -13,6 +13,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	// CLASS VARIABLES
 	
 	private final static Color BACKGROUND_COLOUR = Color.GRAY;
+	private final static int TIMER_DELAY = 5;
 	
 	//--------------------------------------------------------------------------//
 	
@@ -21,6 +22,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public GamePanel () {
 		
 		setBackground(BACKGROUND_COLOUR);
+		Timer timer = new Timer (TIMER_DELAY, this);
+		
+		timer.start();
 		
 		
 	} // end of default constructor
@@ -56,10 +60,29 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
+		update();
+		repaint();
+		
 		
 	} // end of actionPerformed method
 
 	//--------------------------------------------------------------------------//
 	
+	public void update () {
+		
+		
+		
+		
+	} // end of update method
+	
+	//--------------------------------------------------------------------------//
+	
+	public void paintComponent (Graphics g) {
+		
+		
+		
+		
+		
+	} // end of paintComponent method
 	
 } // end of GamePanel class

@@ -1,5 +1,106 @@
 package coingame;
+import java.awt.*;
+
+/* Cynergy Huaki-King
+ * BIT504: Assessment 3
+ * 5009119
+ */
 
 public class Sprite {
 
-}
+	// CLASS VARIABLES
+	
+	private static int xPosition, yPosition, xVelocity, yVelocity, 
+	width, height, initialXPosition, initialYPosition;
+	
+	private static Color getColour = Color.orange;
+	
+	//--------------------------------------------------------------------------//
+	
+	// GETTERS
+	
+	public static int getxPosition() {
+		return xPosition;
+	}
+	
+	public static int getyPosition() {
+		return yPosition;
+	}
+	
+	public static int getxVelocity() {
+		return xVelocity;
+	}
+	
+	public static int getyVelocity() {
+		return yVelocity;
+	}
+	
+	public static int getWidth() {
+		return width;
+	}
+	
+	public static int getHeight() {
+		return height;
+	}
+	
+	public static int getInitialXPosition() {
+		return initialXPosition;
+	}
+	
+	public static int getInitialYPosition() {
+		return initialYPosition;
+	}
+	
+	
+	// SETTERS
+	
+	public static void setxPosition(int xPosition) {
+		Sprite.xPosition = xPosition;
+	}
+	
+	public static void setyPosition(int yPosition) {
+		Sprite.yPosition = yPosition;
+	}
+	
+	public static void setxVelocity(int xVelocity) {
+		Sprite.xVelocity = xVelocity;
+	}
+	
+	public static void setyVelocity(int yVelocity) {
+		Sprite.yVelocity = yVelocity;
+	}
+	
+	public static void setWidth(int width) {
+		Sprite.width = width;
+	}
+	
+	public static void setHeight(int height) {
+		Sprite.height = height;
+	}
+	
+	public static void setInitialXPosition(int initialXPosition) {
+		Sprite.initialXPosition = initialXPosition;
+	}
+	
+	public static void setInitialYPosition(int initialYPosition) {
+		Sprite.initialYPosition = initialYPosition;
+	}
+	
+	//--------------------------------------------------------------------------//
+	
+	// METHODS
+	
+	public void getRectangle () {
+		
+		
+		
+		
+	} // end of getRectangle method
+	
+	
+	
+	
+	
+	
+	
+} // end of Sprite class
