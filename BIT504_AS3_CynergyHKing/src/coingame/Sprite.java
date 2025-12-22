@@ -98,9 +98,9 @@ public class Sprite {
 	
 	// METHODS
 	
-	public void getRectangle () {
+	public Rectangle getRectangle () {
 		
-		
+		return new Rectangle (getxPosition(), getyPosition(), getWidth(), getHeight());
 		
 		
 	} // end of getRectangle method
@@ -121,7 +121,7 @@ public class Sprite {
 	
 	//--------------------------------------------------------------------------//
 	
-	public void  setYPosition (int newYPosition, int panelHeight) {
+	public void setYPosition (int newYPosition, int panelHeight) {
 		
 		yPosition = newYPosition;
 
@@ -133,6 +133,23 @@ public class Sprite {
 		
 	} // end of setYPosition method
 	
+	//--------------------------------------------------------------------------//
 	
+	public void setInitialPosition (int initialX, int initialY) {
+		
+		initialXPosition = initialX;
+		initialYPosition = initialY;
+		
+		
+	} // end of setInitialPosition method
+	
+	//--------------------------------------------------------------------------//
+	
+	public void resetToInitialPosition () {
+		
+		setxPosition(initialXPosition);
+		setyPosition(initialYPosition);
+		
+	} // end of resetToInitialPosition method
 	
 } // end of Sprite class
