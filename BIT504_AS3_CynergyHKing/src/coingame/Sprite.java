@@ -13,14 +13,14 @@ public class Sprite {
 	private static int xPosition, yPosition, xVelocity, yVelocity, 
 	width, height, initialXPosition, initialYPosition;
 	
-	private static Color getColour = Color.orange;
+	private static Color Colour = Color.orange;
 	
 	//--------------------------------------------------------------------------//
 	
 	// GETTERS
 	
-	public static Color getGetColour() {
-		return getColour;
+	public static Color getColour() {
+		return Colour;
 	}
 
 	public static int getxPosition() {
@@ -58,8 +58,8 @@ public class Sprite {
 	
 	// SETTERS
 	
-	public static void setGetColour(Color getColour) {
-		Sprite.getColour = getColour;
+	public static void setColour(Color getColour) {
+		Sprite.Colour = getColour;
 	}
 	
 	public static void setxPosition(int xPosition) {

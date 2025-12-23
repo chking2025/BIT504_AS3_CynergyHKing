@@ -14,6 +14,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	private final static Color BACKGROUND_COLOUR = Color.GRAY;
 	private final static int TIMER_DELAY = 5;
+	boolean gameInitialised = false;
+	
+	// OBJECTS
+	
+	Coin coin;
 	
 	//--------------------------------------------------------------------------//
 	
@@ -70,10 +75,25 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	public void update () {
 		
-		
+		if (!gameInitialised) {
+			
+			createObjects();
+			gameInitialised = true;
+		}
 		
 		
 	} // end of update method
+	
+	//--------------------------------------------------------------------------//
+	
+	// this methods creates the game objects
+	
+	public void createObjects () {
+		
+		coin = new Coin (getWidth(), getHeight());
+		
+		
+	} // end of createObjects method
 	
 	//--------------------------------------------------------------------------//
 	
