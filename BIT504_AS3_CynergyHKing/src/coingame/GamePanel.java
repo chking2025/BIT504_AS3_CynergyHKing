@@ -14,7 +14,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	private final static Color BACKGROUND_COLOUR = Color.GRAY;
 	private final static int TIMER_DELAY = 5;
-	boolean gameInitialised = false;
+	private boolean gameInitialised = false;
+	private static GameState currentState = GameState.INITIALIZING;
 	
 	// OBJECTS
 	
@@ -73,7 +74,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	//--------------------------------------------------------------------------//
 	
-	public void update () {
+	private void update () {
 		
 		if (!gameInitialised) {
 			
@@ -97,9 +98,25 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	//--------------------------------------------------------------------------//
 	
+	private void paintSprite (Graphics g, Sprite sprite) {
+		
+		g.setColor(sprite.getColour());
+		g.fillOval(sprite.getxPosition(), sprite.getyPosition(), sprite.getWidth(), sprite.getHeight());
+		
+		
+	} // end of paintSprite method
+	
+	//--------------------------------------------------------------------------//
+	
 	public void paintComponent (Graphics g) {
 		
+		super.paintComponent(g);
 		
+		if (gameInitialised) {
+			
+			paintSprite(g, coin);
+			
+		}
 		
 		
 		

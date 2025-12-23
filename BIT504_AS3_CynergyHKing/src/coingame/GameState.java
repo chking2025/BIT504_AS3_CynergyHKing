@@ -2,9 +2,9 @@ package coingame;
 
 public enum GameState {
 
-	START,
+	INITIALIZING,
 	PLAYING,
-	WIN,
+	GAME_WON,
 	GAMEOVER
 	
 	

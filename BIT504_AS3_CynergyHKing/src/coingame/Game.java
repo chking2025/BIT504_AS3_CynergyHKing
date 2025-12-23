@@ -8,6 +8,7 @@ import javax.swing.*;
 
 public class Game extends JFrame {
 	
+	
 	// DEFAULT CONSTRUCTOR
 	
 	public Game () {
