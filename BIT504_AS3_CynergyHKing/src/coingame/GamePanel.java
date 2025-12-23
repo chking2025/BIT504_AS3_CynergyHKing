@@ -19,7 +19,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	// OBJECTS
 	
-	Coin coin;
+	private static Coin coin;
+	private static Player player;
+	private static Enemy enemy;
 	
 	//--------------------------------------------------------------------------//
 	
@@ -87,11 +89,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	//--------------------------------------------------------------------------//
 	
-	// this methods creates the game objects
+	// this method creates the game objects
 	
 	public void createObjects () {
 		
 		coin = new Coin (getWidth(), getHeight());
+		player = new Player (getWidth(), getHeight());
+		enemy = new Enemy (getWidth(), getHeight());
+		
 		
 		
 	} // end of createObjects method

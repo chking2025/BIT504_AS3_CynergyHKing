@@ -11,13 +11,13 @@ public class Coin extends Sprite {
 
 	// CLASS VARIABLES
 	
-	private static final int COIN_WIDTH = 25;
-	private static final int COIN_HEIGHT = 25;
+	private static final int COIN_WIDTH = 20;
+	private static final int COIN_HEIGHT = 20;
 	private static final Color COIN_COLOUR = Color.yellow;
 	
 	//--------------------------------------------------------------------------//
 	
-	// DEFAULT CONSTRUCTOR
+	// COIN CONSTRUCTOR
 	
 	public Coin (int panelWidth, int panelHeight) {
 		
@@ -26,7 +26,7 @@ public class Coin extends Sprite {
 		setColour (COIN_COLOUR);
 		
 		
-	} // end of default constructor
+	} // end of Coin constructor
 	
 	//--------------------------------------------------------------------------//
 	

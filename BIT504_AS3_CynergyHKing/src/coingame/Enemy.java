@@ -13,7 +13,7 @@ public class Enemy extends Sprite {
 	
 	private static final int ENEMY_WIDTH = 30;
 	private static final int ENEMY_HEIGHT = 30;
-	private static final Color ENEMY_COLOUR = Color.orange;
+	private static final Color ENEMY_COLOUR = Color.red;
 	
 	//--------------------------------------------------------------------------//
 	
