@@ -14,7 +14,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	private final static Color BACKGROUND_COLOUR = Color.GRAY;
 	private final static int TIMER_DELAY = 5;
-	private static GameState gameState = GameState.INITIALIZING;
+	private GameState gameState = GameState.INITIALIZING;
 	
 	// OBJECTS
 	
@@ -138,6 +138,28 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		
 		
 	} // end of createObjects method
+	
+	//--------------------------------------------------------------------------//
+	
+	private void moveObject (Sprite obj) {
+	
+		obj.setXPosition(obj.getxPosition() +  obj.getxVelocity(), getWidth());
+		obj.setYPosition(obj.getyPosition() + obj.getyVelocity(), getHeight());
+		
+		
+	} // end of moveObject method
+	
+	//--------------------------------------------------------------------------//
+	
+	private void checkWallBounce () {
+		
+		
+		
+		
+		
+		
+	} // end of checkWallBounce method
+	
 	
 	//--------------------------------------------------------------------------//
 	
