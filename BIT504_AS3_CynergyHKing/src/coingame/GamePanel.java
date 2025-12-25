@@ -14,14 +14,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	private final static Color BACKGROUND_COLOUR = Color.GRAY;
 	private final static int TIMER_DELAY = 5;
-	private boolean gameInitialised = false;
-	private static GameState currentState = GameState.INITIALIZING;
+	private static GameState gameState = GameState.INITIALIZING;
 	
 	// OBJECTS
 	
-	private static Coin coin;
-	private static Player player;
-	private static Enemy enemy;
+	private Coin coin;
+	private Player player;
+	private Enemy enemy;
 	
 	//--------------------------------------------------------------------------//
 	
@@ -31,6 +30,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		
 		setBackground(BACKGROUND_COLOUR);
 		Timer timer = new Timer (TIMER_DELAY, this);
+		setFocusable(true);
+		requestFocusInWindow();
 		
 		timer.start();
 		
@@ -64,7 +65,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	} // end of keyReleased method
 	
 	//--------------------------------------------------------------------------//
-
+	
+	@Override
+	public void addNotify() {
+	    super.addNotify();
+	    // This ensures the component is ready to receive focus for the KeyListener
+	    requestFocusInWindow(); 
+	    
+	} // end of addNotify method
+	
+	//--------------------------------------------------------------------------//
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
@@ -78,11 +89,33 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	private void update () {
 		
-		if (!gameInitialised) {
+		switch (gameState) {
 			
-			createObjects();
-			gameInitialised = true;
+		case INITIALIZING: {
+			
+			// checks if the panel has been created
+			
+			if (getWidth() > 0 && getHeight() > 0) {
+
+				createObjects();
+				gameState = GameState.PLAYING;
+				
+			} // end of if statement
+			
+			break;
+			
 		}
+		case PLAYING: {
+			
+			break;
+		}
+		
+		case GAMEOVER: {
+			
+			break;
+		}
+		
+		} // end of gameState switch
 		
 		
 	} // end of update method
@@ -103,25 +136,44 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	//--------------------------------------------------------------------------//
 	
-	private void paintSprite (Graphics g, Sprite sprite) {
+	// paint method for the coin object
+	
+	private void paintCoin (Graphics g, Sprite sprite) {
 		
 		g.setColor(sprite.getColour());
 		g.fillOval(sprite.getxPosition(), sprite.getyPosition(), sprite.getWidth(), sprite.getHeight());
 		
 		
-	} // end of paintSprite method
+	} // end of paintCoin method
 	
 	//--------------------------------------------------------------------------//
+	
+	// paint method for the player and enemy objects
+	
+	private void paintRectangle (Graphics g, Sprite sprite) {
+		
+		g.setColor(sprite.getColour());
+		g.fillRect(sprite.getxPosition(), sprite.getyPosition(), sprite.getWidth(), sprite.getHeight());
+		
+		
+	} // end of paintPlayer method
+	
+	
+	//--------------------------------------------------------------------------//
+	
+	// paints objects to the console
 	
 	public void paintComponent (Graphics g) {
 		
 		super.paintComponent(g);
 		
-		if (gameInitialised) {
+		if (gameState != GameState.INITIALIZING) {
 			
-			paintSprite(g, coin);
+			paintCoin(g, coin); // draws coin object
+			paintRectangle(g, player); // draws player object
+			paintRectangle(g, enemy); // draws enemy object
 			
-		}
+		} // end of if statement
 		
 		
 		

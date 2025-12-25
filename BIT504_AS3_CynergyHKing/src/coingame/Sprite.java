@@ -10,88 +10,88 @@ public class Sprite {
 
 	// CLASS VARIABLES
 	
-	private static int xPosition, yPosition, xVelocity, yVelocity, 
+	private int xPosition, yPosition, xVelocity, yVelocity, 
 	width, height, initialXPosition, initialYPosition;
 	
-	private static Color Colour = Color.orange;
+	private Color Colour = Color.orange;
 	
 	//--------------------------------------------------------------------------//
 	
 	// GETTERS
 	
-	public static Color getColour() {
+	public  Color getColour() {
 		return Colour;
 	}
 
-	public static int getxPosition() {
+	public  int getxPosition() {
 		return xPosition;
 	}
 	
-	public static int getyPosition() {
+	public  int getyPosition() {
 		return yPosition;
 	}
 	
-	public static int getxVelocity() {
+	public  int getxVelocity() {
 		return xVelocity;
 	}
 	
-	public static int getyVelocity() {
+	public  int getyVelocity() {
 		return yVelocity;
 	}
 	
-	public static int getWidth() {
+	public  int getWidth() {
 		return width;
 	}
 	
-	public static int getHeight() {
+	public  int getHeight() {
 		return height;
 	}
 	
-	public static int getInitialXPosition() {
+	public  int getInitialXPosition() {
 		return initialXPosition;
 	}
 	
-	public static int getInitialYPosition() {
+	public  int getInitialYPosition() {
 		return initialYPosition;
 	}
 	
 	
 	// SETTERS
 	
-	public static void setColour(Color getColour) {
-		Sprite.Colour = getColour;
+	public  void setColour(Color getColour) {
+		this.Colour = getColour;
 	}
 	
-	public static void setxPosition(int xPosition) {
-		Sprite.xPosition = xPosition;
+	public  void setxPosition(int xPosition) {
+		this.xPosition = xPosition;
 	}
 	
-	public static void setyPosition(int yPosition) {
-		Sprite.yPosition = yPosition;
+	public  void setyPosition(int yPosition) {
+		this.yPosition = yPosition;
 	}
 	
-	public static void setxVelocity(int xVelocity) {
-		Sprite.xVelocity = xVelocity;
+	public  void setxVelocity(int xVelocity) {
+		this.xVelocity = xVelocity;
 	}
 	
-	public static void setyVelocity(int yVelocity) {
-		Sprite.yVelocity = yVelocity;
+	public  void setyVelocity(int yVelocity) {
+		this.yVelocity = yVelocity;
 	}
 	
-	public static void setWidth(int width) {
-		Sprite.width = width;
+	public  void setWidth(int width) {
+		this.width = width;
 	}
 	
-	public static void setHeight(int height) {
-		Sprite.height = height;
+	public  void setHeight(int height) {
+		this.height = height;
 	}
 	
-	public static void setInitialXPosition(int initialXPosition) {
-		Sprite.initialXPosition = initialXPosition;
+	public  void setInitialXPosition(int initialXPosition) {
+		this.initialXPosition = initialXPosition;
 	}
 	
-	public static void setInitialYPosition(int initialYPosition) {
-		Sprite.initialYPosition = initialYPosition;
+	public  void setInitialYPosition(int initialYPosition) {
+		this.initialYPosition = initialYPosition;
 	}
 	
 	//--------------------------------------------------------------------------//
