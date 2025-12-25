@@ -14,6 +14,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	private final static Color BACKGROUND_COLOUR = Color.GRAY;
 	private final static int TIMER_DELAY = 5;
+	private final static int COIN_MOVEMENT_SPEED = 2;
 	private GameState gameState = GameState.INITIALIZING;
 	
 	// OBJECTS

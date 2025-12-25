@@ -9,7 +9,7 @@ import javax.swing.*;
 public class Game extends JFrame {
 	
 	
-	// DEFAULT CONSTRUCTOR
+	// GAME CONSTRUCTOR
 	
 	public Game () {
 		
@@ -21,7 +21,7 @@ public class Game extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		
-	} // end of default constructor
+	} // end of Game constructor
 	
 	//--------------------------------------------------------------------------//
 	
