@@ -14,6 +14,7 @@ public class Enemy extends Sprite {
 	private static final int ENEMY_WIDTH = 30;
 	private static final int ENEMY_HEIGHT = 30;
 	private static final Color ENEMY_COLOUR = Color.red;
+	private static final int DISTANCE_FROM_EDGE = 40;
 	
 	//--------------------------------------------------------------------------//
 	
@@ -24,6 +25,10 @@ public class Enemy extends Sprite {
 		setWidth(ENEMY_WIDTH);
 		setHeight(ENEMY_HEIGHT);
 		setColour(ENEMY_COLOUR);
+		
+		int xPosition = panelWidth - DISTANCE_FROM_EDGE - getWidth();
+		setInitialPosition (xPosition, panelHeight / 2 - (getHeight() / 2));
+		resetToInitialPosition();
 		
 		
 	} // end of Enemy constructor

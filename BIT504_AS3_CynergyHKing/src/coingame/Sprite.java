@@ -147,9 +147,12 @@ public class Sprite {
 	
 	public void resetToInitialPosition () {
 		
-		setxPosition(initialXPosition);
-		setyPosition(initialYPosition);
+		this.xPosition = initialXPosition;
+		this.yPosition = initialYPosition;
 		
 	} // end of resetToInitialPosition method
 	
+	//--------------------------------------------------------------------------//
+	
+
 } // end of Sprite class

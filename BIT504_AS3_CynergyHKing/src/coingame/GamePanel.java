@@ -106,7 +106,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			
 		}
 		case PLAYING: {
-			
+			checkCollisions();
 			break;
 		}
 		
@@ -130,12 +130,41 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		player = new Player (getWidth(), getHeight());
 		enemy = new Enemy (getWidth(), getHeight());
 		
+		player.setxPosition(50);
+		player.setyPosition(50);
+		enemy.setxPosition(100);
+		enemy.setyPosition(100);
+		
 		
 		
 	} // end of createObjects method
 	
 	//--------------------------------------------------------------------------//
 	
+	private void checkCollisions() {
+		
+		// check if player hits the coin
+		
+		if (player.getRectangle().intersects(coin.getRectangle())) {
+			
+			coin.resetPosition(getWidth(), getHeight());
+			System.out.println("Coin collected!");
+			
+		} // end of if statement
+		
+		// check if player hits an enemy
+		
+		if (player.getRectangle().intersects(enemy.getRectangle())) {
+			
+			System.out.println("Game Over!");
+			gameState = GameState.GAMEOVER;
+			
+		}
+		
+		
+	} // end of checkCollisions method
+	
+	//--------------------------------------------------------------------------//
 	// paint method for the coin object
 	
 	private void paintCoin (Graphics g, Sprite sprite) {
