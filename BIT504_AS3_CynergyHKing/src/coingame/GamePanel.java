@@ -17,11 +17,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	private final static int COIN_MOVEMENT_SPEED = 2;
 	private GameState gameState = GameState.INITIALIZING;
 	
+	
+	// ARRAYS
+	
+	private final Coin[] COINS = new Coin [10]; 
+	private final Enemy[] ENEMIES = new Enemy [10];
+	
+	
 	// OBJECTS
 	
-	private Coin coin;
-	private Player player;
-	private Enemy enemy;
+	private Player user;
 	
 	//--------------------------------------------------------------------------//
 	
@@ -101,13 +106,31 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				createObjects();
 				gameState = GameState.PLAYING;
 				
+				for (Coin c: COINS) {
+					
+					c.setxVelocity(COIN_MOVEMENT_SPEED);
+					c.setyVelocity(COIN_MOVEMENT_SPEED);
+					
+				}
+				
+				
+				
 			} // end of if statement
 			
 			break;
 			
 		}
 		case PLAYING: {
-			checkCollisions();
+			
+			for (Coin c: COINS) {
+				
+				moveObject(c);
+				checkWallBounce(c);
+				//checkCollisions(user, c);
+				
+			} // end of for each loop
+			
+			
 			break;
 		}
 		
@@ -115,6 +138,19 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			
 			break;
 		}
+		case GAME_WON:{
+			
+			
+			break;
+		}
+		
+		
+		
+		default:
+			
+			System.out.println("ERROR: An error occurred, please contact your administrator.");
+			
+			break;
 		
 		} // end of gameState switch
 		
@@ -127,36 +163,71 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	public void createObjects () {
 		
-		coin = new Coin (getWidth(), getHeight());
-		player = new Player (getWidth(), getHeight());
-		enemy = new Enemy (getWidth(), getHeight());
+		// creates coin objects
 		
-		player.setxPosition(50);
-		player.setyPosition(50);
-		enemy.setxPosition(100);
-		enemy.setyPosition(100);
+		for (int i = 0; i < COINS.length; i++) {
+			
+			COINS[i] = new Coin (getWidth(), getHeight());
+			
+			// Gives each coin a random position across the screen
+			
+			COINS[i].resetPosition(getWidth(), getHeight());
+			
+		} // end of COINS for loop
 		
 		
+		for (int i = 0; i < ENEMIES.length; i++) {
+			
+			ENEMIES[i] = new Enemy (getWidth(), getHeight());
+			
+			// Gives each enemy a random positions across the screen
+			
+			//ENEMIES[i].resetPosition(getWidth(), getHeight());
+			
+		} // end of ENEMIES for loop
+		
+		user = new Player (getWidth(),getHeight());
 		
 	} // end of createObjects method
 	
 	//--------------------------------------------------------------------------//
 	
-	private void moveObject (Sprite obj) {
+	private void moveObject (Coin c) {
+
+			
+			c.setXPosition(c.getxPosition() +  c.getxVelocity(), getWidth());
+			c.setYPosition(c.getyPosition() + c.getyVelocity(), getHeight());
+			
 	
-		obj.setXPosition(obj.getxPosition() +  obj.getxVelocity(), getWidth());
-		obj.setYPosition(obj.getyPosition() + obj.getyVelocity(), getHeight());
 		
 		
 	} // end of moveObject method
 	
 	//--------------------------------------------------------------------------//
 	
-	private void checkWallBounce () {
-		
-		
-		
-		
+	private void checkWallBounce (Coin c) {
+			
+			if (c.getxPosition() <= 0) {
+				
+				// Hit left side of screen
+				
+				c.setxVelocity(-c.getxVelocity());}
+				
+				else if (c.getxPosition() >= getWidth() - c.getWidth()) {
+					
+					// Hit right side of screen
+					
+					c.setxVelocity(-c.getxVelocity());
+					
+			} // end of if else statement
+			
+			if (c.getyPosition() <= 0 || c.getyPosition() >= getHeight() - c.getHeight()) {
+				
+				// Hits top or bottom screen
+				
+				c.setyVelocity(-c.getyVelocity());
+				
+			} // end of if statement
 		
 		
 	} // end of checkWallBounce method
@@ -164,13 +235,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	//--------------------------------------------------------------------------//
 	
-	private void checkCollisions() {
+	private void checkCollisions(Player player, Enemy enemy, Coin c) {
 		
 		// check if player hits the coin
 		
-		if (player.getRectangle().intersects(coin.getRectangle())) {
+		if (player.getRectangle().intersects(c.getRectangle())) {
 			
-			coin.resetPosition(getWidth(), getHeight());
+			c.resetPosition(getWidth(), getHeight());
 			System.out.println("Coin collected!");
 			
 		} // end of if statement
@@ -190,10 +261,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	//--------------------------------------------------------------------------//
 	// paint method for the coin object
 	
-	private void paintCoin (Graphics g, Sprite sprite) {
+	private void paintCoin (Graphics g, Coin c) {
 		
-		g.setColor(sprite.getColour());
-		g.fillOval(sprite.getxPosition(), sprite.getyPosition(), sprite.getWidth(), sprite.getHeight());
+		g.setColor(c.getColour());
+		g.fillOval(c.getxPosition(), c.getyPosition(), c.getWidth(), c.getHeight());
 		
 		
 	} // end of paintCoin method
@@ -221,9 +292,20 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		
 		if (gameState != GameState.INITIALIZING) {
 			
-			paintCoin(g, coin); // draws coin object
-			paintRectangle(g, player); // draws player object
-			paintRectangle(g, enemy); // draws enemy object
+			for (Coin c: COINS) {
+				
+				paintCoin(g, c); // draws coin object
+				
+			} // end of COINS for each loop
+			
+			for (Enemy e: ENEMIES) {
+				
+				paintRectangle(g, e); // draws enemy object
+				
+			} // end of ENEMIES for each loop
+			
+			paintRectangle(g, user); // draws player object
+			
 			
 		} // end of if statement
 		
