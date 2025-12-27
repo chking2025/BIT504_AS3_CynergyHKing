@@ -34,23 +34,6 @@ public class Coin extends Sprite {
 	
 	//--------------------------------------------------------------------------//
 	
-	public void resetPosition (int panelWidth, int panelHeight) {
-		
-		Random randomPosition = new Random();
-		
-		// this generates random positions for the coins to respawn
-		
-		int newXPosition = randomPosition.nextInt(panelWidth - getWidth());
-		int newYPosition = randomPosition.nextInt(panelHeight - getHeight());
-		
-		setxPosition (newXPosition);
-		setyPosition (newYPosition);
-		
-		
-		
-	} // end of resetPosition method
-	
-	
 	
 	
 	

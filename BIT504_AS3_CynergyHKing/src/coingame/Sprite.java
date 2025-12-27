@@ -1,5 +1,6 @@
 package coingame;
 import java.awt.*;
+import java.util.Random;
 
 /* Cynergy Huaki-King
  * BIT504: Assessment 3
@@ -107,13 +108,32 @@ public class Sprite {
 	
 	//--------------------------------------------------------------------------//
 	
+	public void resetPosition (int panelWidth, int panelHeight) {
+		
+		Random randomPosition = new Random();
+		
+		// this generates random positions for the objects to respawn
+		
+		int newXPosition = randomPosition.nextInt(panelWidth - getWidth());
+		int newYPosition = randomPosition.nextInt(panelHeight - getHeight());
+		
+		setxPosition (newXPosition);
+		setyPosition (newYPosition);
+		
+		
+		
+	} // end of resetPosition method
+	
+	//--------------------------------------------------------------------------//
+	
 	public void setXPosition (int newXPosition, int panelWidth) {
 		
-		xPosition = newXPosition;
+		this.xPosition = newXPosition;
 		
+		// checks boundary
 		if (xPosition < 0) {
 	           xPosition = 0;
-	       } else if (xPosition + width > panelWidth) {
+	       } else if (xPosition > panelWidth - width) {
 	           xPosition = panelWidth - width;
 	       }
 		

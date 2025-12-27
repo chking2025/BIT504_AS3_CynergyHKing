@@ -1,6 +1,7 @@
 package coingame;
 
 import java.awt.Color;
+import java.util.Random;
 
 /* Cynergy Huaki-King
  * BIT504: Assessment 3
@@ -32,9 +33,6 @@ public class Enemy extends Sprite {
 		
 		
 	} // end of Enemy constructor
-	
-	
-	
 	
 	
 	
