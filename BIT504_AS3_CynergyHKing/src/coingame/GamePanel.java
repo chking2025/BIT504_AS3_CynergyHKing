@@ -13,7 +13,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	// CLASS VARIABLES
 	
 	private boolean up, down, left, right; // boolean flags to indicate if a key is pressed up, down, left or right
-	private int userScore = 0, pcScore = 0, points;
+	private int userScore = 0, pcScore = 0, userPoints, pcPoints;
 	private String winner;
 	
 		// FINAL VARIABLES
@@ -272,14 +272,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				
 				// Hit left side of screen
 				
-				sprite.setxVelocity(-sprite.getxVelocity());}
+				sprite.setxVelocity(-sprite.getxVelocity());
+				addScore(sprite, ENEMIES);}
 				
 				else if (sprite.getxPosition() >= getWidth() - sprite.getWidth()) {
 					
 					// Hit right side of screen
 					
 					sprite.setxVelocity(-sprite.getxVelocity());
-					
+					addScore(sprite, ENEMIES);
 			} // end of if else statement
 			
 			if (sprite.getyPosition() <= 0 || sprite.getyPosition() >= getHeight() - sprite.getHeight()) {
@@ -287,6 +288,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				// Hits top or bottom screen
 				
 				sprite.setyVelocity(-sprite.getyVelocity());
+				addScore(sprite, ENEMIES);
 				
 			} // end of if statement
 		
@@ -295,6 +297,26 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	
 	//--------------------------------------------------------------------------//
+	
+	// this method scores the user and enemies
+	
+	private void addScore (Sprite player, Sprite[] enemies) {
+		
+		if (player == user) {
+			
+			userScore++;
+			
+		} else if (enemies == ENEMIES) {
+			
+			pcScore++;
+			
+		} // end of if else statement
+		
+	} // end of addScore method
+	
+	//--------------------------------------------------------------------------//
+	
+	// this method checks the winner of the game
 	
 	private void checkWin() {
 		
@@ -307,11 +329,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			
 			winner = "The Enemy has won!";
 			gameState = GameState.GAMEOVER;
-		}
+			
+		} // end of if else statement
 		
 		
 		
-	}
+	} // end of checkWin method
 	
 	//--------------------------------------------------------------------------//
 	
@@ -340,6 +363,28 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	//--------------------------------------------------------------------------//
 	
+	// paint method for the scores
+	
+	private void paintScores (Graphics g) {
+		
+		int xPadding = 100;
+		int yPadding = 100;
+		int fontSize = 50;
+		Font scoreFont = new Font ("Arial", Font.BOLD, fontSize);
+		String topScore = Integer.toString(userScore);
+		String bottomScore = Integer.toString(pcScore);
+		g.setFont(scoreFont);
+		g.drawString(topScore, xPadding, yPadding);
+		g.drawString(bottomScore, -xPadding, -yPadding);
+		
+		
+		
+		
+		
+	} // end of paintScores method
+	
+	//--------------------------------------------------------------------------//
+	
 	// paints objects to the console
 	
 	public void paintComponent (Graphics g) {
@@ -362,7 +407,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			} // end of ENEMIES for each loop
 			
 			paintRectangle(g, user); // draws player object
-			
+			paintScores(g);
 			
 		} // end of if statement
 		
