@@ -12,12 +12,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	// CLASS VARIABLES
 	
-	private final static Color BACKGROUND_COLOUR = Color.GRAY;
-	private final static int TIMER_DELAY = 16;
-	private final static int OBJECT_MOVEMENT_SPEED = 3;
 	private boolean up, down, left, right; // boolean flags to indicate if a key is pressed up, down, left or right
+	private int userScore = 0, pcScore = 0, points;
+	private String winner;
 	
+		// FINAL VARIABLES
 	
+		private final static Color BACKGROUND_COLOUR = Color.GRAY;
+		private final static int TIMER_DELAY = 16;
+		private final static int OBJECT_MOVEMENT_SPEED = 3;
+		private final static int POINTS_TO_WIN = 10;
+	
+		
 	// ENUM
 	
 	private GameState gameState = GameState.INITIALIZING;
@@ -258,6 +264,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	//--------------------------------------------------------------------------//
 	
 	// this method checks if an object hits the wall and ensures it bounces off the wall
+	// takes the Sprite class as a parameter
 	
 	private void checkWallBounce (Sprite sprite) {
 			
@@ -286,6 +293,25 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		
 	} // end of checkWallBounce method
 	
+	
+	//--------------------------------------------------------------------------//
+	
+	private void checkWin() {
+		
+		if (userScore >= POINTS_TO_WIN) {
+			
+			winner = "You are the winner!";
+			gameState = GameState.GAME_WON;
+			
+		} else if (pcScore >= POINTS_TO_WIN) {
+			
+			winner = "The Enemy has won!";
+			gameState = GameState.GAMEOVER;
+		}
+		
+		
+		
+	}
 	
 	//--------------------------------------------------------------------------//
 	
