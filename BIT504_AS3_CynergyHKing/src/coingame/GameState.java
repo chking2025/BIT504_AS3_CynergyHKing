@@ -8,6 +8,7 @@ package coingame;
 public enum GameState {
 
 	INITIALIZING,
+	START_SCREEN,
 	PLAYING,
 	GAME_WON,
 	GAMEOVER

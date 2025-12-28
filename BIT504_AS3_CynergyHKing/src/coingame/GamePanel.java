@@ -13,7 +13,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	// CLASS VARIABLES
 	
 	private boolean up, down, left, right; // boolean flags to indicate if a key is pressed up, down, left or right
-	private int userScore = 0, pcScore = 0, userPoints, pcPoints;
+	private int userScore = 0, pcScore = 0;
 	private String winner;
 	
 		// FINAL VARIABLES
@@ -22,6 +22,19 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		private final static int TIMER_DELAY = 16;
 		private final static int OBJECT_MOVEMENT_SPEED = 3;
 		private final static int POINTS_TO_WIN = 10;
+			
+			// paintScores: FINAL VARIABLES
+			private final static int SCORE_TEXT_X = 100;
+			private final static int SCORE_TEXT_Y = 100;
+			private final static int SCORE_FONT_SIZE = 50;
+			private final static String SCORE_FONT_FAMILY = "Arial";
+			
+				// paintWinner: FINAL VARIABLES
+				private final static int WINNER_TEXT_X = 200;
+				private final static int WINNER_TEXT_Y = 200;
+				private final static int WINNER_FONT_SIZE = 40;
+				private final static String WINNER_FONT_FAMILY = "Arial";
+				private final static String WINNER_TEXT = "WIN!";
 	
 		
 	// ENUM
@@ -38,6 +51,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	// OBJECTS
 	
 	private Player user;
+	private Sprite gameWinner;
 	
 	//--------------------------------------------------------------------------//
 	
@@ -177,6 +191,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 					if (user.getRectangle().intersects(c.getRectangle())) {
 						
 						c.resetPosition(getWidth(), getHeight());
+						userScore++; // user gets a point when they collect a coin
 						
 					} // end of if statement
 				
@@ -190,13 +205,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 					
 				// checks collision between enemies and player
 					if (user.getRectangle().intersects(e.getRectangle())) {
-
-						gameState = GameState.GAMEOVER;
+						pcScore++;
 					}
 				
 			} // end of ENEMIES for each loop
 			
-			
+			checkWin();
 			break;
 		}
 		
@@ -272,24 +286,24 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				
 				// Hit left side of screen
 				
-				sprite.setxVelocity(-sprite.getxVelocity());
-				addScore(sprite, ENEMIES);}
+				sprite.setxVelocity(-sprite.getxVelocity());}
+
 				
 				else if (sprite.getxPosition() >= getWidth() - sprite.getWidth()) {
 					
 					// Hit right side of screen
 					
 					sprite.setxVelocity(-sprite.getxVelocity());
-					addScore(sprite, ENEMIES);
+
 			} // end of if else statement
+			
 			
 			if (sprite.getyPosition() <= 0 || sprite.getyPosition() >= getHeight() - sprite.getHeight()) {
 				
 				// Hits top or bottom screen
 				
 				sprite.setyVelocity(-sprite.getyVelocity());
-				addScore(sprite, ENEMIES);
-				
+
 			} // end of if statement
 		
 		
@@ -298,36 +312,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	//--------------------------------------------------------------------------//
 	
-	// this method scores the user and enemies
-	
-	private void addScore (Sprite player, Sprite[] enemies) {
-		
-		if (player == user) {
-			
-			userScore++;
-			
-		} else if (enemies == ENEMIES) {
-			
-			pcScore++;
-			
-		} // end of if else statement
-		
-	} // end of addScore method
-	
-	//--------------------------------------------------------------------------//
-	
 	// this method checks the winner of the game
 	
 	private void checkWin() {
 		
 		if (userScore >= POINTS_TO_WIN) {
-			
-			winner = "You are the winner!";
+			gameWinner = user;
 			gameState = GameState.GAME_WON;
 			
 		} else if (pcScore >= POINTS_TO_WIN) {
 			
-			winner = "The Enemy has won!";
 			gameState = GameState.GAMEOVER;
 			
 		} // end of if else statement
@@ -367,21 +361,46 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	private void paintScores (Graphics g) {
 		
-		int xPadding = 100;
-		int yPadding = 100;
-		int fontSize = 50;
-		Font scoreFont = new Font ("Arial", Font.BOLD, fontSize);
-		String topScore = Integer.toString(userScore);
-		String bottomScore = Integer.toString(pcScore);
+		Font scoreFont = new Font (SCORE_FONT_FAMILY, Font.BOLD, SCORE_FONT_SIZE);
+		String leftScore = Integer.toString(userScore);
+		String rightScore = Integer.toString(pcScore);
 		g.setFont(scoreFont);
-		g.drawString(topScore, xPadding, yPadding);
-		g.drawString(bottomScore, -xPadding, -yPadding);
-		
-		
-		
-		
+		g.drawString(leftScore, SCORE_TEXT_X, SCORE_TEXT_Y);
+		g.drawString(rightScore, getWidth()-SCORE_TEXT_X, SCORE_TEXT_Y);
+
 		
 	} // end of paintScores method
+	
+	//--------------------------------------------------------------------------//
+	
+	// paint method for winner text
+	
+	private void paintWinner (Graphics g) {
+		
+		int xPosition = 0;
+		
+		if (gameWinner != null) {
+			
+			Font winnerFont = new Font (WINNER_FONT_FAMILY, Font.BOLD, WINNER_FONT_SIZE);
+			g.setFont(winnerFont);
+			xPosition = getWidth()/2;	
+		}
+		
+		if (gameWinner == user) {
+			
+			xPosition -= WINNER_TEXT_X;
+			
+		}	else {
+				
+				xPosition += WINNER_TEXT_Y;
+				
+			}
+			
+			g.drawString(WINNER_TEXT, xPosition, WINNER_TEXT_Y);
+		
+		
+	} // end of paintWinner method
+	
 	
 	//--------------------------------------------------------------------------//
 	
@@ -408,6 +427,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			
 			paintRectangle(g, user); // draws player object
 			paintScores(g);
+			paintWinner(g);
 			
 		} // end of if statement
 		
