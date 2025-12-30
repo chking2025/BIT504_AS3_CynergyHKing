@@ -172,7 +172,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			if (getWidth() > 0 && getHeight() > 0) {
 
 				createObjects();
-				gameState = GameState.PLAYING;
+				gameState = GameState.START_SCREEN;
 				
 				// sets the speed of the coins to move around the screen
 				for (Coin c: COINS) {
@@ -385,13 +385,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		// MAIN TITLE
 		g.setColor(SS_FONT_COLOUR);
 		g.setFont(new Font(SS_FONT_FAMILY, Font.BOLD, SS_FONT_SIZE));
-		g.drawString(SS_TITLE, getWidth() / 2 - 200, getHeight() / 2 - 50);
+		g.drawString(SS_TITLE, getWidth() / 2 - 350, getHeight() / 2 - 50);
 		
 		// SUB-TITLES
 		g.setFont(new Font (SS_FONT_FAMILY, Font.ITALIC, SS_SUBHEADING_FONT_SIZE));
 		g.setColor(SS_SUBHEADING_FONT_COLOUR);
-		g.drawString(ENTER, getWidth() / 2 - 100, getHeight() / 2 + 20 );
-		g.drawString(WASD, getWidth() / 2 - 120, getHeight() / 2 + 50 );
+		g.drawString(ENTER, getWidth() / 2 - 250, getHeight() / 2 + 20 );
+		g.drawString(WASD, getWidth() / 2 - 325, getHeight() / 2 + 70 );
 
 		
 	} // end of paintStartScreen method
@@ -477,11 +477,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		super.paintComponent(g);
 		Toolkit.getDefaultToolkit().sync(); // prevents mouse lag
 		
+		/* when the game starts, the start screen will be paint
+		 *  once the game begins, the coins and enemies will be painted to the screen
+		 *  the scores will also be painted to the game throughout the game
+		 */
+		
 		if (gameState == GameState.START_SCREEN) {
 			
 			paintStartScreen(g);
 			
-		} else if (gameState != GameState.INITIALIZING) {
+		} else if (gameState != GameState.PLAYING || gameState != GameState.GAME_WON || gameState != GameState.GAMEOVER) {
 			
 			for (Coin c: COINS) {
 				
@@ -497,9 +502,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			
 			paintRectangle(g, user); // draws player object
 			paintScores(g);
-			paintWinner(g);
+			
 			
 		} // end of if else statement
+		
+		
+		// if game is won or the game is over, it will paint the winner
+		if (gameState == GameState.GAME_WON || gameState == GameState.GAMEOVER) {
+			
+			paintWinner(g);
+		} // end of if statement
 		
 		
 		
