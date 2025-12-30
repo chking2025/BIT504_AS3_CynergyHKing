@@ -166,7 +166,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			
 			break;
 			
-		}
+		} // end of INITIALIZING 
+		
+		case START_SCREEN: {
+			
+			
+			
+			
+			
+		} // end of START_SCREEN
+		
+		
+		
 		case PLAYING: {
 			
 			// setting player speed
