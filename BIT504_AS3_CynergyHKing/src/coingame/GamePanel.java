@@ -35,6 +35,21 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				private final static int WINNER_FONT_SIZE = 40;
 				private final static String WINNER_FONT_FAMILY = "Arial";
 				private final static String WINNER_TEXT = "WIN!";
+				
+					// paintStartScreen: FINAL VARIABLES
+					
+					// MAIN HEADING
+					private final static String SS_TITLE = "Collect Em' All"; 
+					private final static Color SS_FONT_COLOUR = Color.orange;
+					private final static int SS_FONT_SIZE = 100;
+					private final static String SS_FONT_FAMILY = "Arial";
+					
+					// SUBHEADINGS
+					private final static int SS_SUBHEADING_FONT_SIZE = 50;
+					private final static Color SS_SUBHEADING_FONT_COLOUR = Color.green;
+					private final static String ENTER = "Press ENTER to Start";
+					private final static String WASD = "Use WASD or Arrows to Move";
+					
 	
 		
 	// ENUM
@@ -87,6 +102,19 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		
 		int key = e.getKeyCode();
 		
+		
+		// if the 'Enter' or 'Space' keys are pressed on the Start screen, the game will begin
+		if (gameState == GameState.START_SCREEN) {
+			
+			if (key == KeyEvent.VK_ENTER || key == KeyEvent.VK_SPACE) {
+				
+				gameState = GameState.PLAYING;
+			}
+			
+			
+		} // end of if statement
+		
+		// if the up, down, left or right keys are pressed, the user will be able to move up, down, left or right in the game
 		if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) up = true;
 		if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) down = true;
 		if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) left = true;
@@ -170,7 +198,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		
 		case START_SCREEN: {
 			
-			
+			break;
 			
 			
 			
@@ -275,6 +303,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	//--------------------------------------------------------------------------//
 	
+	//---------------------------MOVEMENT METHODS--------------------------------
+	
+	
 	// moves an object when called and takes the parent class Sprite as a parameter
 	
 	private void moveObject (Sprite sprite) {
@@ -340,6 +371,30 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		
 		
 	} // end of checkWin method
+	
+	//--------------------------------------------------------------------------//
+	
+	//---------------------------PAINT METHODS-----------------------------------
+	
+	//--------------------------------------------------------------------------//
+	
+	// paint method for the start screen of the game
+	
+	private void paintStartScreen (Graphics g) {
+		
+		// MAIN TITLE
+		g.setColor(SS_FONT_COLOUR);
+		g.setFont(new Font(SS_FONT_FAMILY, Font.BOLD, SS_FONT_SIZE));
+		g.drawString(SS_TITLE, getWidth() / 2 - 200, getHeight() / 2 - 50);
+		
+		// SUB-TITLES
+		g.setFont(new Font (SS_FONT_FAMILY, Font.ITALIC, SS_SUBHEADING_FONT_SIZE));
+		g.setColor(SS_SUBHEADING_FONT_COLOUR);
+		g.drawString(ENTER, getWidth() / 2 - 100, getHeight() / 2 + 20 );
+		g.drawString(WASD, getWidth() / 2 - 120, getHeight() / 2 + 50 );
+
+		
+	} // end of paintStartScreen method
 	
 	//--------------------------------------------------------------------------//
 	
@@ -422,7 +477,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		super.paintComponent(g);
 		Toolkit.getDefaultToolkit().sync(); // prevents mouse lag
 		
-		if (gameState != GameState.INITIALIZING) {
+		if (gameState == GameState.START_SCREEN) {
+			
+			paintStartScreen(g);
+			
+		} else if (gameState != GameState.INITIALIZING) {
 			
 			for (Coin c: COINS) {
 				
@@ -440,7 +499,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			paintScores(g);
 			paintWinner(g);
 			
-		} // end of if statement
+		} // end of if else statement
 		
 		
 		
