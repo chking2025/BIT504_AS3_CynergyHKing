@@ -13,7 +13,7 @@ public class Game extends JFrame {
 	
 	public Game () {
 		
-		setTitle ("Coin Game");
+		setTitle ("Collect Em' All");
 		setSize (800, 600);
 		setResizable (false);
 		add(new GamePanel());

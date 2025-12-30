@@ -2,6 +2,7 @@ package coingame;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.util.LinkedList;
 
 /* Cynergy Huaki-King
  * BIT504: Assessment 3
@@ -47,8 +48,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 					// SUBHEADINGS
 					private final static int SS_SUBHEADING_FONT_SIZE = 50;
 					private final static Color SS_SUBHEADING_FONT_COLOUR = Color.green;
-					private final static String ENTER = "Press ENTER to Start";
-					private final static String WASD = "Use WASD or Arrows to Move";
+					private final static String ENTER = "- Press ENTER to Start";
+					private final static String WASD = "- Use WASD or Arrows to Move";
 					
 	
 		
@@ -59,8 +60,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	// ARRAYS
 	
-	private final Coin[] COINS = new Coin [10]; 
-	private final Enemy[] ENEMIES = new Enemy [10];
+	private final LinkedList<Coin> COINS = new LinkedList<>(); 
+	private final LinkedList<Enemy> ENEMIES = new LinkedList<>();
 	
 	
 	// OBJECTS
@@ -226,7 +227,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				moveObject(c);
 				checkWallBounce(c);
 				
-					// checks collision between player and coins
+					// checks collision between user and coins
 					if (user.getRectangle().intersects(c.getRectangle())) {
 						
 						c.resetPosition(getWidth(), getHeight());
@@ -242,9 +243,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				moveObject(e);
 				checkWallBounce(e);
 					
-				// checks collision between enemies and player
+				// checks collision between enemies and user
 					if (user.getRectangle().intersects(e.getRectangle())) {
-						pcScore++;
+						resetGame(); // resets game
+						pcScore++; // enemy gets a point when it collides with user
 					}
 				
 			} // end of ENEMIES for each loop
@@ -276,24 +278,26 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		
 		// creates coin objects
 		
-		for (int i = 0; i < COINS.length; i++) {
+		for (int i = 0; i < 10; i++) {
 			
-			COINS[i] = new Coin (getWidth(), getHeight());
+			Coin coin = new Coin (getWidth(), getHeight () /2 );
 			
 			// Gives each coin a random position across the screen
 			
-			COINS[i].resetPosition(getWidth(), getHeight());
+			coin.resetPosition(getWidth(), getHeight() / 2);
+			COINS.add(coin);
 			
 		} // end of COINS for loop
 		
 		
-		for (int i = 0; i < ENEMIES.length; i++) {
+		for (int i = 0; i < 10; i++) {
 			
-			ENEMIES[i] = new Enemy (getWidth(), getHeight());
+			Enemy enemy = new Enemy (getWidth(), getHeight() / 2);
 			
 			// Gives each enemy a random positions across the screen
 			
-			ENEMIES[i].resetPosition(getWidth(), getHeight());
+			enemy.resetPosition(getWidth(), getHeight() / 2);
+			ENEMIES.add(enemy);
 			
 		} // end of ENEMIES for loop
 		
@@ -351,6 +355,32 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		
 	} // end of checkWallBounce method
 	
+	
+	//--------------------------------------------------------------------------//
+	
+	private void resetGame() {
+		
+		int currentEnemySpeed = OBJECT_MOVEMENT_SPEED;
+		currentEnemySpeed++;
+		
+		// resets user position
+		user.resetPosition(getWidth(), getHeight() / 2);
+		
+		// resets coin in random positions across the screen
+		for (Coin c: COINS) {
+			
+			c.resetPosition(getWidth(), getHeight() / 2);
+		}
+		
+		// resets enemies in random positions and increases the speed
+		for (Enemy e: ENEMIES) {
+			
+			e.resetPosition(getWidth(), getHeight() / 2);
+			e.setxVelocity(currentEnemySpeed);
+			e.setyVelocity(currentEnemySpeed);
+		}
+		
+	} // end of resetGame method
 	
 	//--------------------------------------------------------------------------//
 	
