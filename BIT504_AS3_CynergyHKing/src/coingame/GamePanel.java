@@ -316,20 +316,20 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				// checks against existing coins
 				for (Coin otherCoins: COINS) {
 					
-					if (coin.getRectangle().intersects(otherCoins.getRectangle()));
+					if (coin.getRectangle().intersects(otherCoins.getRectangle())) {
 					overlap = true;
 					break;
 					
 					
-				} // end of coin for each loop
+				} // end of if statement
 
-			} // end of coin overlap while loop
+			} // end of coin for each loop
 
 			COINS.add(coin);
 			
-			
-		} // end of COINS for loop
+		} // end of coin overlap while loop
 		
+		} // end of COINS for loop
 		
 		//-------------ENEMIES-------------
 		
@@ -349,6 +349,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				if (enemy.getRectangle().intersects(user.getRectangle())) {
 					
 					overlap = true;
+					break;
 				} // end of if statement
 				
 				// checks against coins
@@ -380,7 +381,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			} // end of enemies while loop
 			
 			ENEMIES.add(enemy);
-			
 		} // end of ENEMIES for loop
 		
 		
