@@ -15,7 +15,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	private boolean up, down, left, right; // boolean flags to indicate if a key is pressed up, down, left or right
 	private int userScore = 0, pcScore = 0;
-	private String winner;
 	private int currentEnemySpeed = OBJECT_MOVEMENT_SPEED;
 	private boolean overlap;
 	
@@ -61,7 +60,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	private GameState gameState = GameState.INITIALIZING;
 	
 	
-	// ARRAYS
+	// CLASS
+	
+	private ObjectMovement om = new ObjectMovement();
+	
+	
+	// LINKEDLISTS
 	
 	private final LinkedList<Coin> COINS = new LinkedList<>(); 
 	private final LinkedList<Enemy> ENEMIES = new LinkedList<>();
@@ -83,7 +87,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		setFocusable(true);
 		addKeyListener(this);
 		requestFocusInWindow();
-		
 		timer.start();
 		
 		
@@ -171,6 +174,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			
 		case INITIALIZING: {
 			
+			
 			// checks if the panel has been created
 			
 			if (getWidth() > 0 && getHeight() > 0) {
@@ -222,7 +226,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			if (right) user.setxVelocity(OBJECT_MOVEMENT_SPEED);
 			
 			// move player
-			moveObject(user);
+			om.moveObject(user, getWidth(), getHeight());
 			
 			if (user.getyPosition() < BOUNDARY_ZONE) {
 				
@@ -233,8 +237,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			for (int i = COINS.size() - 1; i >= 0; i--) {
 				Coin c = COINS.get(i);
 				
-				moveObject(c);
-				checkWallBounce(c);
+				om.moveObject(c, getWidth(), getHeight());
+				om.checkWallBounce(c, BOUNDARY_ZONE ,getWidth(), getHeight());
 				
 					// checks collision between user and coins
 					if (user.getRectangle().intersects(c.getRectangle())) {
@@ -249,12 +253,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			// move enemies
 			for (Enemy e: ENEMIES) {
 				
-				moveObject(e);
-				checkWallBounce(e);
+				om.moveObject(e, getWidth(), getHeight());
+				om.checkWallBounce(e, BOUNDARY_ZONE, getWidth(), getHeight());
 					
 				// checks collision between enemies and user
 					if (user.getRectangle().intersects(e.getRectangle())) {
-						resetGame(); // resets game
+						om.resetGame(user, COINS, ENEMIES, getWidth(), getHeight(), OBJECT_MOVEMENT_SPEED, currentEnemySpeed); // resets game
 						pcScore++; // enemy gets a point when it collides with user
 					}
 				
@@ -287,11 +291,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		
 		if (user == null) {
 			
-			//-------------USER-------------
+			//-------------USER-------------//
 		
 			user = new Player (getWidth(),getHeight());
 			
-			//-------------COINS-------------
+			//-------------COINS-------------//
 			
 		// creates coin objects
 		
@@ -322,16 +326,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 					
 					
 				} // end of if statement
-
+					
 			} // end of coin for each loop
 
-			COINS.add(coin);
-			
 		} // end of coin overlap while loop
+			
+		COINS.add(coin);
 		
 		} // end of COINS for loop
 		
-		//-------------ENEMIES-------------
+		//-------------ENEMIES-------------//
 		
 		
 		for (int i = 0; i < 10; i++) {
@@ -393,88 +397,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	//---------------------------MOVEMENT METHODS--------------------------------
 	
-	
-	// moves an object when called and takes the parent class Sprite as a parameter
-	
-	private void moveObject (Sprite sprite) {
-
-			
-			sprite.setXPosition(sprite.getxPosition() +  sprite.getxVelocity(), getWidth());
-			sprite.setYPosition(sprite.getyPosition() + sprite.getyVelocity(), getHeight());
-
-		
-	} // end of moveCoin method
-	
-	//--------------------------------------------------------------------------//
-	
-	// this method checks if an object hits the wall and ensures it bounces off the wall
-	// takes the Sprite class as a parameter
-	
-	private void checkWallBounce (Sprite sprite) {
-			
-			if (sprite.getxPosition() <= 0) {
-				
-				// Hit left side of screen
-				
-				sprite.setxVelocity(-sprite.getxVelocity());}
-
-				
-				else if (sprite.getxPosition() >= getWidth() - sprite.getWidth()) {
-					
-					// Hit right side of screen
-					
-					sprite.setxVelocity(-sprite.getxVelocity());
-
-			} // end of if else statement
-			
-			
-			if (sprite.getyPosition() <= BOUNDARY_ZONE) {
-				
-				// Hits the boundary zone (where the scores are printed)
-				
-				sprite.setyVelocity(Math.abs(sprite.getyVelocity()));
-				sprite.setYPosition(BOUNDARY_ZONE, getHeight());
-
-			} else if (sprite.getyPosition() >= getHeight() - sprite.getHeight()) {
-				
-				// Hits the bottom
-				sprite.setyVelocity(-Math.abs(sprite.getyVelocity()));
-				
-			} // end of if else statement
-			
-			
-			
-		
-		
-	} // end of checkWallBounce method
-	
-	
-	//--------------------------------------------------------------------------//
-	
-	private void resetGame() {
-		
-		
-		currentEnemySpeed++;
-		
-		// resets user position
-		user.resetPosition(getWidth(), getHeight());
-		
-		// resets coin in random positions across the screen
-		for (Coin c: COINS) {
-			
-			c.resetPosition(getWidth(), getHeight());
-		}
-		
-		// resets enemies in random positions and increases the speed
-		for (Enemy e: ENEMIES) {
-			
-			e.resetPosition(getWidth(), getHeight());
-			e.setxVelocity(currentEnemySpeed);
-			e.setyVelocity(currentEnemySpeed);
-		}
-		
-	} // end of resetGame method
-	
 	//--------------------------------------------------------------------------//
 	
 	// this method checks the winner of the game
@@ -499,8 +421,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	//---------------------------PAINT METHODS-----------------------------------
 	
-	//--------------------------------------------------------------------------//
-	
 	// paint method for the start screen of the game
 	
 	private void paintStartScreen (Graphics g) {
@@ -511,10 +431,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.drawString(SS_TITLE, getWidth() / 2 - 350, getHeight() / 2 - 50);
 		
 		// SUB-TITLES
-		g.setFont(new Font (SS_FONT_FAMILY, Font.ITALIC, SS_SUBHEADING_FONT_SIZE));
+		g.setFont(new Font (SS_FONT_FAMILY, Font.PLAIN, SS_SUBHEADING_FONT_SIZE));
 		g.setColor(SS_SUBHEADING_FONT_COLOUR);
-		g.drawString(ENTER, getWidth() / 2 - 250, getHeight() / 2 + 20 );
-		g.drawString(WASD, getWidth() / 2 - 325, getHeight() / 2 + 70 );
+		g.drawString(ENTER, getWidth() / 2 - 255, getHeight() / 2 + 20 );
+		g.drawString(WASD, getWidth() / 2 - 370, getHeight() / 2 + 70 );
 
 		
 	} // end of paintStartScreen method
