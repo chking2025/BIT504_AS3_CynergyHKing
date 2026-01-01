@@ -7,24 +7,16 @@ import java.util.LinkedList;
  * 5009119
  */
 
-public class ObjectSettings{
-	
-	// CLASS VARIABLES
+public class ObjectSettings {
 	
 	
 	//--------------------------------METHODS------------------------------------//
 	
+	// this method creates the player, coins and enemy objects for the game
+	
 	public void createObjects (Sprite user, LinkedList<Coin> coins, LinkedList<Enemy> enemies, int width, int height) {
 		
 		boolean overlap;
-		
-		if (user == null) {
-			
-			//-------------USER-------------//
-			
-			// creates player object
-		
-			user = new Player (width,height);
 			
 			//-------------COINS-------------//
 			
@@ -81,10 +73,10 @@ public class ObjectSettings{
 				overlap = false;
 				
 				// checks against user
-				if (enemy.getRectangle().intersects(user.getRectangle())) {
+				
+				if (user != null && enemy.getRectangle().intersects(user.getRectangle())) {
 					
 					overlap = true;
-					break;
 				} // end of if statement
 				
 				// checks against coins
@@ -119,9 +111,6 @@ public class ObjectSettings{
 		} // end of ENEMIES for loop
 		
 		
-		
-		} // end of outer if statement
-		
 	} // end of createObjects method
 	
 	
@@ -146,14 +135,6 @@ public class ObjectSettings{
 						moveObject(c, width, height);
 						checkWallBounce(c, boundary ,width, height);
 						
-							// checks collision between user and coins
-							if (user.getRectangle().intersects(c.getRectangle())) {
-								coins.remove(i);
-								c.resetPosition(width, height);
-								userScore++; // user gets a point when they collect a coin
-								
-							} // end of if statement
-						
 					} // end of COINS for each loop
 					
 					// move enemies
@@ -161,12 +142,6 @@ public class ObjectSettings{
 						
 						moveObject(e, width, height);
 						checkWallBounce(e, boundary, width, height);
-							
-						// checks collision between enemies and user
-							if (user.getRectangle().intersects(e.getRectangle())) {
-								resetGame(user, coins, enemies, width, height, speed, currentEnemySpeed); // resets game
-								pcScore++; // enemy gets a point when it collides with user
-							}
 						
 					} // end of ENEMIES for each loop
 
@@ -288,6 +263,8 @@ public class ObjectSettings{
 		} // end of setNewPosition method
 		
 		//--------------------------------------------------------------------------//
+		
+		// this method resets the game if a player incurs damage or collects a coin
 	
 		protected void resetGame(Sprite user, LinkedList<Coin> coins, LinkedList<Enemy> enemies, int width, int height, int speed, int enemySpeed) {
 

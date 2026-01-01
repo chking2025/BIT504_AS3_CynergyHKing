@@ -23,7 +23,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		private final static Color BACKGROUND_COLOUR = Color.GRAY;
 		private final static int BOUNDARY_ZONE = 120;
 		private final static int TIMER_DELAY = 16;
-		private final static int OBJECT_MOVEMENT_SPEED = 3;
+		private final static int OBJECT_MOVEMENT_SPEED = 2;
 		private final static int POINTS_TO_WIN = 10;
 			
 			// paintScores: FINAL VARIABLES
@@ -62,7 +62,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	// CLASS
 	
-	private ObjectSettings om = new ObjectSettings();
+	private ObjectSettings objectSettings = new ObjectSettings();
 	
 	
 	// LINKEDLISTS
@@ -178,8 +178,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			// checks if the panel has been created
 			
 			if (getWidth() > 0 && getHeight() > 0) {
-
-				createObjects();
+				
+				// creates player object
+				user = new Player (getWidth(), getHeight());
+				
+				// creates coins and enemy objects
+				objectSettings.createObjects(user, COINS, ENEMIES, getWidth(), getHeight());
 				gameState = GameState.START_SCREEN;
 				
 				// sets the speed of the coins to move around the screen
@@ -225,8 +229,37 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			if (left) user.setxVelocity(-OBJECT_MOVEMENT_SPEED);
 			if (right) user.setxVelocity(OBJECT_MOVEMENT_SPEED);
 			
-			om.gameplay(user, COINS, ENEMIES, userScore, pcScore, getWidth(), getHeight(), BOUNDARY_ZONE, OBJECT_MOVEMENT_SPEED, currentEnemySpeed);
-			checkWin();
+			objectSettings.gameplay(user, COINS, ENEMIES, userScore, pcScore, getWidth(), getHeight(), BOUNDARY_ZONE, OBJECT_MOVEMENT_SPEED, currentEnemySpeed);
+			
+			// Check coin collisions
+			
+			for (Coin c: COINS) {
+				
+				if (user.getRectangle().intersects(c.getRectangle())) {
+					
+					COINS.remove();
+					userScore++;
+					
+				} // end of if statement
+				
+				
+			} // end of COINS for loop
+			
+			// Check enemy collisions
+			
+			for (Enemy e: ENEMIES) {
+				
+				if (user.getRectangle().intersects(e.getRectangle())) {
+					
+					pcScore++;
+					objectSettings.resetGame(user, COINS, ENEMIES, getWidth(), getHeight(), OBJECT_MOVEMENT_SPEED, currentEnemySpeed);
+				} // end of if statement
+				
+				
+				
+			} // end of ENEMIES for each loop
+			
+			checkWin(user, userScore, pcScore, POINTS_TO_WIN);
 			break;
 		}
 		
@@ -247,129 +280,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	//--------------------------------------------------------------------------//
 	
-	// this method creates the game objects
-	
-	public void createObjects () {
-		
-		if (user == null) {
-			
-			//-------------USER-------------//
-		
-			user = new Player (getWidth(),getHeight());
-			
-			//-------------COINS-------------//
-			
-		// creates coin objects
-		
-		for (int i = 0; i < 10; i++) {
-			
-			Coin coin = new Coin (getWidth(), getHeight());
-			overlap = true;
-			
-			while (overlap) {
-				
-				// Gives each coin a random position across the screen
-			coin.resetPosition(getWidth(), getHeight());
-			overlap = false;
-				
-				// checks if coin and player are in the same position
-				if (coin.getRectangle().intersects(user.getRectangle())) {
-					
-					overlap = true;
-				} // end of if statement
-				
-				
-				// checks against existing coins
-				for (Coin otherCoins: COINS) {
-					
-					if (coin.getRectangle().intersects(otherCoins.getRectangle())) {
-					overlap = true;
-					break;
-					
-					
-				} // end of if statement
-					
-			} // end of coin for each loop
-
-		} // end of coin overlap while loop
-			
-		COINS.add(coin);
-		
-		} // end of COINS for loop
-		
-		//-------------ENEMIES-------------//
-		
-		
-		for (int i = 0; i < 10; i++) {
-			
-			Enemy enemy = new Enemy (getWidth(), getHeight());
-			overlap = true;
-			
-			while (overlap) {
-				
-				// Gives each enemy a random position across the screen
-				enemy.resetPosition(getWidth(), getHeight());
-				overlap = false;
-				
-				// checks against user
-				if (enemy.getRectangle().intersects(user.getRectangle())) {
-					
-					overlap = true;
-					break;
-				} // end of if statement
-				
-				// checks against coins
-				
-				for (Coin c: COINS) {
-					
-					if (enemy.getRectangle().intersects(c.getRectangle())) {
-						
-						overlap = true;
-						break;
-					} // end of if statement
-					
-				} // end of for each loop
-				
-				
-				// checks against other enemies
-				
-				for (Enemy otherEnemies: ENEMIES) {
-					
-					if (enemy.getRectangle().intersects(otherEnemies.getRectangle())) {
-						
-						overlap = true;
-						break;
-						
-					} // end of if statement
-					
-				} // end of for each loop
-				
-			} // end of enemies while loop
-			
-			ENEMIES.add(enemy);
-		} // end of ENEMIES for loop
-		
-		
-		
-		} // end of outer if statement
-		
-	} // end of createObjects method
-	
-	//--------------------------------------------------------------------------//
-	
-	//---------------------------MOVEMENT METHODS--------------------------------
-	
-	//--------------------------------------------------------------------------//
 	
 	// this method checks the winner of the game
 	
-	private void checkWin() {
+	private void checkWin (Sprite user, int userScore, int pcScore, int pointLimit) {
 		
-		if (userScore >= POINTS_TO_WIN) {
+		if (userScore >= pointLimit) {
 			gameWinner = user;
 			gameState = GameState.GAME_WON;
 			
-		} else if (pcScore >= POINTS_TO_WIN) {
+		} else if (pcScore >= pointLimit) {
 			
 			gameState = GameState.GAMEOVER;
 			
@@ -378,8 +298,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		
 		
 	} // end of checkWin method
-	
-	//--------------------------------------------------------------------------//
 	
 	//---------------------------PAINT METHODS-----------------------------------
 	
