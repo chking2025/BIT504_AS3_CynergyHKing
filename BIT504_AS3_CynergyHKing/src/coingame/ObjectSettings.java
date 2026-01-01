@@ -12,9 +12,54 @@ public class ObjectSettings{
 	// CLASS VARIABLES
 	
 	
+	//---------------------------MOVEMENT METHODS--------------------------------//
 	
+	protected void gameplay (Sprite user, LinkedList<Coin> coins, LinkedList<Enemy> enemies, int userScore, int pcScore, int width, 
+							int height, int boundary, int speed, int currentEnemySpeed) {
+					
+					// move player
+					moveObject(user, width, height);
+					
+					if (user.getyPosition() < boundary) {
+						
+						user.setYPosition(boundary, height);
+					}
+					
+					// move coins
+					for (int i = coins.size() - 1; i >= 0; i--) {
+						Coin c = coins.get(i);
+						
+						moveObject(c, width, height);
+						checkWallBounce(c, boundary ,width, height);
+						
+							// checks collision between user and coins
+							if (user.getRectangle().intersects(c.getRectangle())) {
+								coins.remove(i);
+								c.resetPosition(width, height);
+								userScore++; // user gets a point when they collect a coin
+								
+							} // end of if statement
+						
+					} // end of COINS for each loop
+					
+					// move enemies
+					for (Enemy e: enemies) {
+						
+						moveObject(e, width, height);
+						checkWallBounce(e, boundary, width, height);
+							
+						// checks collision between enemies and user
+							if (user.getRectangle().intersects(e.getRectangle())) {
+								resetGame(user, coins, enemies, width, height, speed, currentEnemySpeed); // resets game
+								pcScore++; // enemy gets a point when it collides with user
+							}
+						
+					} // end of ENEMIES for each loop
 
-	//---------------------------METHODS--------------------------------//
+		
+		} // end of gameplay method
+
+		//--------------------------------------------------------------------------//
 	
 	
 		// moves an object when called and takes the parent class Sprite as a parameter

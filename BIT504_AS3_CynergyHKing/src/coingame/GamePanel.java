@@ -62,7 +62,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	// CLASS
 	
-	private ObjectMovement om = new ObjectMovement();
+	private ObjectSettings om = new ObjectSettings();
 	
 	
 	// LINKEDLISTS
@@ -225,45 +225,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			if (left) user.setxVelocity(-OBJECT_MOVEMENT_SPEED);
 			if (right) user.setxVelocity(OBJECT_MOVEMENT_SPEED);
 			
-			// move player
-			om.moveObject(user, getWidth(), getHeight());
-			
-			if (user.getyPosition() < BOUNDARY_ZONE) {
-				
-				user.setYPosition(BOUNDARY_ZONE, getHeight());
-			}
-			
-			// move coins
-			for (int i = COINS.size() - 1; i >= 0; i--) {
-				Coin c = COINS.get(i);
-				
-				om.moveObject(c, getWidth(), getHeight());
-				om.checkWallBounce(c, BOUNDARY_ZONE ,getWidth(), getHeight());
-				
-					// checks collision between user and coins
-					if (user.getRectangle().intersects(c.getRectangle())) {
-						COINS.remove(i);
-						c.resetPosition(getWidth(), getHeight());
-						userScore++; // user gets a point when they collect a coin
-						
-					} // end of if statement
-				
-			} // end of COINS for each loop
-			
-			// move enemies
-			for (Enemy e: ENEMIES) {
-				
-				om.moveObject(e, getWidth(), getHeight());
-				om.checkWallBounce(e, BOUNDARY_ZONE, getWidth(), getHeight());
-					
-				// checks collision between enemies and user
-					if (user.getRectangle().intersects(e.getRectangle())) {
-						om.resetGame(user, COINS, ENEMIES, getWidth(), getHeight(), OBJECT_MOVEMENT_SPEED, currentEnemySpeed); // resets game
-						pcScore++; // enemy gets a point when it collides with user
-					}
-				
-			} // end of ENEMIES for each loop
-			
+			om.gameplay(user, COINS, ENEMIES, userScore, pcScore, getWidth(), getHeight(), BOUNDARY_ZONE, OBJECT_MOVEMENT_SPEED, currentEnemySpeed);
 			checkWin();
 			break;
 		}
