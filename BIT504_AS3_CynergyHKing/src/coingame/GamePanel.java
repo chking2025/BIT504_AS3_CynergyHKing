@@ -15,6 +15,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	private boolean up, down, left, right; // boolean flags to indicate if a key is pressed up, down, left or right
 	private int userScore = 0, pcScore = 0, userHealth = 5;
+	private Timer damaged;
 	
 		// FINAL VARIABLES
 	
@@ -214,7 +215,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			
 		} // end of START_SCREEN
 		
-		
+		case PAUSE: {
+			
+			break;
+			
+		}
 		
 		case PLAYING: {
 			
@@ -252,6 +257,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 					
 					pcScore++;
 					userHealth--;
+					
+					// pauses game for 3 seconds when an enemy hits player
+					
+					
 					objectSettings.resetGame(user, COINS, ENEMIES, getWidth(), getHeight(), OBJECT_MOVEMENT_SPEED);
 				} // end of if statement
 				

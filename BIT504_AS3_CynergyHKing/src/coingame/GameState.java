@@ -10,6 +10,7 @@ public enum GameState {
 	INITIALIZING,
 	START_SCREEN,
 	PLAYING,
+	PAUSE,
 	GAME_WON,
 	GAMEOVER
 	
