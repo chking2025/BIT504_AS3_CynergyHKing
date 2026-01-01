@@ -12,6 +12,120 @@ public class ObjectSettings{
 	// CLASS VARIABLES
 	
 	
+	//--------------------------------METHODS------------------------------------//
+	
+	public void createObjects (Sprite user, LinkedList<Coin> coins, LinkedList<Enemy> enemies, int width, int height) {
+		
+		boolean overlap;
+		
+		if (user == null) {
+			
+			//-------------USER-------------//
+			
+			// creates player object
+		
+			user = new Player (width,height);
+			
+			//-------------COINS-------------//
+			
+		// creates coin objects
+		
+		for (int i = 0; i < 10; i++) {
+			
+			Coin coin = new Coin (width, height);
+			overlap = true;
+			
+			while (overlap) {
+				
+				// Gives each coin a random position across the screen
+			coin.resetPosition(width, height);
+			overlap = false;
+				
+				// checks if coin and player are in the same position
+				if (coin.getRectangle().intersects(user.getRectangle())) {
+					
+					overlap = true;
+				} // end of if statement
+				
+				
+				// checks against existing coins
+				for (Coin otherCoins: coins) {
+					
+					if (coin.getRectangle().intersects(otherCoins.getRectangle())) {
+					overlap = true;
+					break;
+					
+					
+				} // end of if statement
+					
+			} // end of coin for each loop
+
+		} // end of coin overlap while loop
+			
+		coins.add(coin);
+		
+		} // end of COINS for loop
+		
+		//-------------ENEMIES-------------//
+		
+		
+		for (int i = 0; i < 10; i++) {
+			
+			Enemy enemy = new Enemy (width, height);
+			overlap = true;
+			
+			while (overlap) {
+				
+				// Gives each enemy a random position across the screen
+				enemy.resetPosition(width, height);
+				overlap = false;
+				
+				// checks against user
+				if (enemy.getRectangle().intersects(user.getRectangle())) {
+					
+					overlap = true;
+					break;
+				} // end of if statement
+				
+				// checks against coins
+				
+				for (Coin c: coins) {
+					
+					if (enemy.getRectangle().intersects(c.getRectangle())) {
+						
+						overlap = true;
+						break;
+					} // end of if statement
+					
+				} // end of for each loop
+				
+				
+				// checks against other enemies
+				
+				for (Enemy otherEnemies: enemies) {
+					
+					if (enemy.getRectangle().intersects(otherEnemies.getRectangle())) {
+						
+						overlap = true;
+						break;
+						
+					} // end of if statement
+					
+				} // end of for each loop
+				
+			} // end of enemies while loop
+			
+			enemies.add(enemy);
+		} // end of ENEMIES for loop
+		
+		
+		
+		} // end of outer if statement
+		
+	} // end of createObjects method
+	
+	
+	
 	//---------------------------MOVEMENT METHODS--------------------------------//
 	
 	protected void gameplay (Sprite user, LinkedList<Coin> coins, LinkedList<Enemy> enemies, int userScore, int pcScore, int width, 
