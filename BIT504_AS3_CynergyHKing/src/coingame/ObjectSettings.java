@@ -9,6 +9,10 @@ import java.util.LinkedList;
 
 public class ObjectSettings {
 	
+	// CLASS VARIABLES
+	
+	private int increaseSpeed = 0;
+	
 	
 	//--------------------------------METHODS------------------------------------//
 	
@@ -118,7 +122,7 @@ public class ObjectSettings {
 	//---------------------------MOVEMENT METHODS--------------------------------//
 	
 	protected void gameplay (Sprite user, LinkedList<Coin> coins, LinkedList<Enemy> enemies, int userScore, int pcScore, int width, 
-							int height, int boundary, int speed, int currentEnemySpeed) {
+							int height, int boundary, int speed) {
 					
 					// move player
 					moveObject(user, width, height);
@@ -266,10 +270,11 @@ public class ObjectSettings {
 		
 		// this method resets the game if a player incurs damage or collects a coin
 	
-		protected void resetGame(Sprite user, LinkedList<Coin> coins, LinkedList<Enemy> enemies, int width, int height, int speed, int enemySpeed) {
+		protected void resetGame(Sprite user, LinkedList<Coin> coins, LinkedList<Enemy> enemies, int width, int height, int speed) {
 
-			speed++;
-			int newVelocity = speed + enemySpeed;
+			increaseSpeed++;
+			
+			int newVelocity = speed + increaseSpeed;
 			
 			// resets user position
 			user.resetPosition(width, height);

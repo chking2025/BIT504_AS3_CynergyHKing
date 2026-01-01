@@ -14,9 +14,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	// CLASS VARIABLES
 	
 	private boolean up, down, left, right; // boolean flags to indicate if a key is pressed up, down, left or right
-	private int userScore = 0, pcScore = 0;
-	private int currentEnemySpeed = OBJECT_MOVEMENT_SPEED;
-	private boolean overlap;
+	private int userScore = 0, pcScore = 0, userHealth = 5;
 	
 		// FINAL VARIABLES
 	
@@ -229,15 +227,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			if (left) user.setxVelocity(-OBJECT_MOVEMENT_SPEED);
 			if (right) user.setxVelocity(OBJECT_MOVEMENT_SPEED);
 			
-			objectSettings.gameplay(user, COINS, ENEMIES, userScore, pcScore, getWidth(), getHeight(), BOUNDARY_ZONE, OBJECT_MOVEMENT_SPEED, currentEnemySpeed);
+			objectSettings.gameplay(user, COINS, ENEMIES, userScore, pcScore, getWidth(), getHeight(), BOUNDARY_ZONE, OBJECT_MOVEMENT_SPEED);
 			
 			// Check coin collisions
 			
-			for (Coin c: COINS) {
+			for (int i = COINS.size() - 1; i >= 0; i--) {
+				Coin c = COINS.get(i);
 				
 				if (user.getRectangle().intersects(c.getRectangle())) {
 					
-					COINS.remove();
+					COINS.remove(i);
 					userScore++;
 					
 				} // end of if statement
@@ -252,7 +251,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				if (user.getRectangle().intersects(e.getRectangle())) {
 					
 					pcScore++;
-					objectSettings.resetGame(user, COINS, ENEMIES, getWidth(), getHeight(), OBJECT_MOVEMENT_SPEED, currentEnemySpeed);
+					userHealth--;
+					objectSettings.resetGame(user, COINS, ENEMIES, getWidth(), getHeight(), OBJECT_MOVEMENT_SPEED);
 				} // end of if statement
 				
 				
