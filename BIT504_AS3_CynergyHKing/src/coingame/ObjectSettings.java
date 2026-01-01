@@ -7,7 +7,7 @@ import java.util.LinkedList;
  * 5009119
  */
 
-public class ObjectMovement{
+public class ObjectSettings{
 	
 	// CLASS VARIABLES
 	
