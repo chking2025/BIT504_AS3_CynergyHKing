@@ -83,6 +83,21 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		
 		setBackground(BACKGROUND_COLOUR);
 		Timer timer = new Timer (TIMER_DELAY, this);
+		
+		// pauses game for 3 seconds when an enemy damages the player
+		damaged = new Timer (3000, new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				gameState = GameState.PLAYING;
+				damaged.stop();
+				
+			}
+			
+		}); // end of damaged timer function
+		
+		
 		setFocusable(true);
 		addKeyListener(this);
 		requestFocusInWindow();
@@ -259,9 +274,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 					userHealth--;
 					
 					// pauses game for 3 seconds when an enemy hits player
-					
-					
+					// resets position of enemies on the screen when player is hit by the enemies
 					objectSettings.resetGame(user, COINS, ENEMIES, getWidth(), getHeight(), OBJECT_MOVEMENT_SPEED);
+					gameState = GameState.PAUSE;
+					damaged.start();
+					
+					break;
+					
 				} // end of if statement
 				
 				
@@ -418,7 +437,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			
 			paintStartScreen(g);
 			
-		} else if (gameState == GameState.PLAYING || gameState == GameState.GAME_WON || gameState == GameState.GAMEOVER) {
+		} else if (gameState == GameState.PLAYING || gameState == GameState.PAUSE || gameState == GameState.GAME_WON || gameState == GameState.GAMEOVER) {
 			
 			for (Coin c: COINS) {
 				
