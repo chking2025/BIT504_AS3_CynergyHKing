@@ -14,7 +14,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	// CLASS VARIABLES
 	
 	private boolean up, down, left, right; // boolean flags to indicate if a key is pressed up, down, left or right
-	private int userScore = 0, pcScore = 0, userHealth = 5;
+	private int userScore = 0, pcScore = 0, userHealth = 0;
 	private Timer damaged;
 	
 		// FINAL VARIABLES
@@ -24,6 +24,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		private final static int TIMER_DELAY = 16;
 		private final static int OBJECT_MOVEMENT_SPEED = 2;
 		private final static int POINTS_TO_WIN = 10;
+		private final static int MAX_USER_HEALTH = 5;
 			
 			// paintScores: FINAL VARIABLES
 			private final static int SCORE_TEXT_X = 100;
@@ -421,6 +422,47 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	//--------------------------------------------------------------------------//
 	
+	private void paintUserHealth (Graphics g) {
+		
+		// positioning
+		int userHealthX = 100;
+		int userHealthY = 70;
+		int spaces = 30;
+		
+		g.setFont(new Font ("Arial", Font.PLAIN, 25));
+		
+		for (int heart = 0; heart < MAX_USER_HEALTH; heart++) {
+			
+			if (heart < userHealth) {
+				
+				// draw pink heart for remaining health
+				g.setColor(Color.pink);
+				g.drawString("\\u2661", userHealthX + (heart * spaces), userHealthY);
+				
+			} else {
+				
+				// draw a grey heart for lost lives
+				g.setColor(Color.gray);
+				g.drawString("\\u2661", userHealthX + (heart * spaces), userHealthY);
+				
+				
+			} // end of if else statement
+			
+			
+			
+		} // end of for loop
+		
+		
+		
+		
+		
+	} // end of paintUserHealth method
+	
+	
+	
+	
+	//--------------------------------------------------------------------------//
+	
 	// paints objects to the console
 	
 	public void paintComponent (Graphics g) {
@@ -453,7 +495,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			
 			paintRectangle(g, user); // draws player object
 			paintScores(g);
-			
+			paintUserHealth(g);
 			
 		} // end of if else statement
 		
