@@ -14,16 +14,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	// CLASS VARIABLES
 	
 	private boolean up, down, left, right; // boolean flags to indicate if a key is pressed up, down, left or right
-	private int userScore = 0, pcScore = 0, userHealth = 0;
+	private int userScore = 0, pcScore = 0, userHealth;
 	private Timer damaged;
 	
 		// FINAL VARIABLES
 	
-		private final static Color BACKGROUND_COLOUR = Color.GRAY;
+		private final static Color BACKGROUND_COLOUR = Color.DARK_GRAY;
 		private final static int BOUNDARY_ZONE = 120;
 		private final static int TIMER_DELAY = 16;
 		private final static int OBJECT_MOVEMENT_SPEED = 2;
-		private final static int POINTS_TO_WIN = 10;
+		private final static int POINTS_TO_WIN = 5;
 		private final static int MAX_USER_HEALTH = 5;
 			
 			// paintScores: FINAL VARIABLES
@@ -196,6 +196,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				
 				// creates player object
 				user = new Player (getWidth(), getHeight());
+				
+				// shows user health bar
+				userHealth = MAX_USER_HEALTH;
 				
 				// creates coins and enemy objects
 				objectSettings.createObjects(user, COINS, ENEMIES, getWidth(), getHeight());
@@ -422,12 +425,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	//--------------------------------------------------------------------------//
 	
+	// this method paints the user health (hearts)
+	
 	private void paintUserHealth (Graphics g) {
 		
-		// positioning
+		// positioning of the hearts
 		int userHealthX = 100;
-		int userHealthY = 70;
+		int userHealthY = 140;
 		int spaces = 30;
+		String heartSymbol = "\u2665";
 		
 		g.setFont(new Font ("Arial", Font.PLAIN, 25));
 		
@@ -437,13 +443,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				
 				// draw pink heart for remaining health
 				g.setColor(Color.pink);
-				g.drawString("\\u2661", userHealthX + (heart * spaces), userHealthY);
+				g.drawString(heartSymbol, userHealthX + (heart * spaces), userHealthY);
 				
 			} else {
 				
 				// draw a grey heart for lost lives
 				g.setColor(Color.gray);
-				g.drawString("\\u2661", userHealthX + (heart * spaces), userHealthY);
+				g.drawString(heartSymbol, userHealthX + (heart * spaces), userHealthY);
 				
 				
 			} // end of if else statement
