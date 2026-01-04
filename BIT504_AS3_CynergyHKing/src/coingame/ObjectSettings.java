@@ -122,7 +122,7 @@ public class ObjectSettings {
 	//---------------------------MOVEMENT METHODS--------------------------------//
 	
 	protected void gameplay (Sprite user, LinkedList<Coin> coins, LinkedList<Enemy> enemies, int userScore, int pcScore, int width, 
-							int height, int boundary, int speed) {
+							int height, int boundary) {
 					
 					// move player
 					moveObject(user, width, height);
