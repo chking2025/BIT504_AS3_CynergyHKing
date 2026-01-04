@@ -34,9 +34,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			private final static String SCORE_FONT_FAMILY = "Arial";
 			
 				// paintWinner: FINAL VARIABLES
-				private final static int WINNER_TEXT_X = 100;
-				private final static int WINNER_TEXT_Y = 100;
-				private final static int WINNER_FONT_SIZE = 80;
+				private final static int WINNER_FONT_SIZE = 50;
 				private final static String WINNER_FONT_FAMILY = "Arial";
 				
 					// paintStartScreen: FINAL VARIABLES
@@ -49,7 +47,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 					
 					// SUBHEADINGS
 					private final static int SS_SUBHEADING_FONT_SIZE = 50;
-					private final static Color SS_SUBHEADING_FONT_COLOUR = Color.white;
+					private final static Color SS_SUBHEADING_FONT_COLOUR = Color.pink;
 					private final static String ENTER = "- Press ENTER to Start";
 					private final static String WASD = "- Use WASD or Arrows to Move";
 					
@@ -250,7 +248,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 						if (left) user.setxVelocity(-USER_SPEED);
 						if (right) user.setxVelocity(USER_SPEED);
 						
-						objectSettings.gameplay(user, COINS, ENEMIES, userScore, pcScore, getWidth(), getHeight(), BOUNDARY_ZONE);
+						// move player and checks for the wall boundaries
+						objectSettings.moveObject(user, getWidth(), getHeight());
+						
+						if (user.getyPosition() < BOUNDARY_ZONE) {
+							
+							user.setYPosition(BOUNDARY_ZONE, getHeight());
+						}
 						
 						// Check coin collisions
 						
@@ -430,11 +434,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		// enemy score colour (right)
 		g.setColor(Color.red);
 		g.drawString(rightScore, getWidth()-SCORE_TEXT_X, SCORE_TEXT_Y);
-		
-		
-		
 
-		
 	} // end of paintScores method
 	
 	//--------------------------------------------------------------------------//
