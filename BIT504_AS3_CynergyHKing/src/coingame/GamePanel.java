@@ -491,7 +491,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			if (heart < userHealth) {
 				
 				// draw pink heart for remaining health
-				g.setColor(new Color (0xDC3B6B));
+				g.setColor(new Color (0xFDB0C0));
 				g.drawString(heartSymbol, userHealthX + (heart * spaces), userHealthY);
 				
 			} else {
@@ -528,7 +528,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			
 			paintStartScreen(g);
 			
-		} else if (gameState == GameState.PLAYING || gameState == GameState.PAUSE || gameState == GameState.GAME_WON || gameState == GameState.GAMEOVER) {
+		} else if (gameState == GameState.PLAYING || gameState == GameState.PAUSE) {
 			
 			for (Coin c: COINS) {
 				
