@@ -71,12 +71,12 @@ public class Sprite {
 		this.yPosition = yPosition;
 	}
 	
-	public  void setxVelocity(int xVelocity) {
-		this.xVelocity = xVelocity;
+	public  void setxVelocity(double newVelocity) {
+		this.xVelocity = (int) newVelocity;
 	}
 	
-	public  void setyVelocity(int yVelocity) {
-		this.yVelocity = yVelocity;
+	public  void setyVelocity(double newVelocity) {
+		this.yVelocity = (int) newVelocity;
 	}
 	
 	public  void setWidth(int width) {
