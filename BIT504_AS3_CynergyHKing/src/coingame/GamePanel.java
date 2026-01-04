@@ -46,7 +46,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 					private final static String SS_FONT_FAMILY = "Arial";
 					
 					// SUBHEADINGS
-					private final static int SS_SUBHEADING_FONT_SIZE = 50;
+					private final static int SS_SUBHEADING_FONT_SIZE = 30;
 					private final static Color SS_SUBHEADING_FONT_COLOUR = new Color (0x337357);
 					private final static String ENTER = "- Press ENTER to Start";
 					private final static String WASD = "- Use WASD or Arrows to Move";
@@ -385,8 +385,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		// SUB-TITLES
 		g.setFont(new Font (SS_FONT_FAMILY, Font.PLAIN, SS_SUBHEADING_FONT_SIZE));
 		g.setColor(SS_SUBHEADING_FONT_COLOUR);
-		g.drawString(ENTER, getWidth() / 2 - 255, getHeight() / 2 + 20 );
-		g.drawString(WASD, getWidth() / 2 - 370, getHeight() / 2 + 70 );
+		g.drawString(ENTER, getWidth() / 2 - 180, getHeight() / 2 + 20 );
+		g.drawString(WASD, getWidth() / 2 - 180, getHeight() / 2 + 70 );
 
 		
 	} // end of paintStartScreen method
