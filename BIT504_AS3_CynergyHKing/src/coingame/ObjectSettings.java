@@ -11,7 +11,7 @@ public class ObjectSettings {
 	
 	// CLASS VARIABLES
 	
-	private int increaseSpeed = 0;
+	private double increaseSpeed = 0;
 	
 	
 	//--------------------------------METHODS------------------------------------//
@@ -176,14 +176,14 @@ public class ObjectSettings {
 					
 					// Hit left side of screen
 					
-					sprite.setxVelocity(-sprite.getxVelocity());}
+					sprite.setxVelocity (Math.abs(sprite.getxVelocity()));
 
 					
-					else if (sprite.getxPosition() >= width - sprite.getWidth()) {
+				} else if (sprite.getxPosition() >= width - sprite.getWidth()) {
 						
 						// Hit right side of screen
 						
-						sprite.setxVelocity(-sprite.getxVelocity());
+						sprite.setxVelocity (-Math.abs(sprite.getxVelocity()));
 
 				} // end of if else statement
 				
@@ -272,9 +272,9 @@ public class ObjectSettings {
 	
 		protected void resetGame(Sprite user, LinkedList<Coin> coins, LinkedList<Enemy> enemies, int width, int height, int speed) {
 
-			increaseSpeed++;
+			increaseSpeed += 0.5;
 			
-			int newVelocity = speed + increaseSpeed;
+			double newVelocity = speed + increaseSpeed;
 			
 			// resets user position
 			user.resetPosition(width, height);

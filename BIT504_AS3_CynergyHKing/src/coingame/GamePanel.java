@@ -22,9 +22,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		private final static Color BACKGROUND_COLOUR = Color.DARK_GRAY;
 		private final static int BOUNDARY_ZONE = 120;
 		private final static int TIMER_DELAY = 16;
-		private final static int OBJECT_MOVEMENT_SPEED = 2;
-		private final static int POINTS_TO_WIN = 5;
-		private final static int MAX_USER_HEALTH = 5;
+		private final static int USER_SPEED = 2;
+		private final static int COIN_ENEMY_SPEED = 1;
+		private final static int POINTS_TO_WIN = 10;
+		private final static int MAX_USER_HEALTH = 10;
 			
 			// paintScores: FINAL VARIABLES
 			private final static int SCORE_TEXT_X = 100;
@@ -34,10 +35,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			
 				// paintWinner: FINAL VARIABLES
 				private final static int WINNER_TEXT_X = 100;
-				private final static int WINNER_TEXT_Y = 300;
-				private final static int WINNER_FONT_SIZE = 40;
+				private final static int WINNER_TEXT_Y = 100;
+				private final static int WINNER_FONT_SIZE = 80;
 				private final static String WINNER_FONT_FAMILY = "Arial";
-				private final static String WINNER_TEXT = "WIN!";
 				
 					// paintStartScreen: FINAL VARIABLES
 					
@@ -49,7 +49,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 					
 					// SUBHEADINGS
 					private final static int SS_SUBHEADING_FONT_SIZE = 50;
-					private final static Color SS_SUBHEADING_FONT_COLOUR = Color.green;
+					private final static Color SS_SUBHEADING_FONT_COLOUR = Color.white;
 					private final static String ENTER = "- Press ENTER to Start";
 					private final static String WASD = "- Use WASD or Arrows to Move";
 					
@@ -69,6 +69,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	private final LinkedList<Coin> COINS = new LinkedList<>(); 
 	private final LinkedList<Enemy> ENEMIES = new LinkedList<>();
+	
+	
+	// ARRAYS
+	
+	private String[] winner = {"YOU WIN!", "THE ENEMY HAS WON!"};
 	
 	
 	// OBJECTS
@@ -207,16 +212,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				// sets the speed of the coins to move around the screen
 				for (Coin c: COINS) {
 					
-					c.setxVelocity(OBJECT_MOVEMENT_SPEED);
-					c.setyVelocity(OBJECT_MOVEMENT_SPEED);
+					c.setxVelocity(COIN_ENEMY_SPEED);
+					c.setyVelocity(COIN_ENEMY_SPEED);
 					
 				} // end of COINS for each loop
 				
 				// sets the speed of the enemies to move around the screen
 				for (Enemy e: ENEMIES) {
 					
-					e.setxVelocity(OBJECT_MOVEMENT_SPEED);
-					e.setyVelocity(OBJECT_MOVEMENT_SPEED);
+					e.setxVelocity(COIN_ENEMY_SPEED);
+					e.setyVelocity(COIN_ENEMY_SPEED);
 					
 				} // end of ENEMIES for each loop
 				
@@ -246,12 +251,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			user.setxVelocity(0);
 			user.setyVelocity(0);
 			
-			if (up) user.setyVelocity(-OBJECT_MOVEMENT_SPEED);
-			if (down) user.setyVelocity(OBJECT_MOVEMENT_SPEED);
-			if (left) user.setxVelocity(-OBJECT_MOVEMENT_SPEED);
-			if (right) user.setxVelocity(OBJECT_MOVEMENT_SPEED);
+			if (up) user.setyVelocity(-USER_SPEED);
+			if (down) user.setyVelocity(USER_SPEED);
+			if (left) user.setxVelocity(-USER_SPEED);
+			if (right) user.setxVelocity(USER_SPEED);
 			
-			objectSettings.gameplay(user, COINS, ENEMIES, userScore, pcScore, getWidth(), getHeight(), BOUNDARY_ZONE, OBJECT_MOVEMENT_SPEED);
+			objectSettings.gameplay(user, COINS, ENEMIES, userScore, pcScore, getWidth(), getHeight(), BOUNDARY_ZONE);
 			
 			// Check coin collisions
 			
@@ -279,7 +284,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 					
 					// pauses game for 3 seconds when an enemy hits player
 					// resets position of enemies on the screen when player is hit by the enemies
-					objectSettings.resetGame(user, COINS, ENEMIES, getWidth(), getHeight(), OBJECT_MOVEMENT_SPEED);
+					objectSettings.resetGame(user, COINS, ENEMIES, getWidth(), getHeight(), COIN_ENEMY_SPEED);
 					gameState = GameState.PAUSE;
 					damaged.start();
 					
@@ -365,7 +370,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	//--------------------------------------------------------------------------//
 	
-	// paint method for the player and enemy objects
+	// paint method for user and enemy objects
 	
 	private void paintRectangle (Graphics g, Sprite sprite) {
 		
@@ -373,7 +378,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.fillRect(sprite.getxPosition(), sprite.getyPosition(), sprite.getWidth(), sprite.getHeight());
 		
 		
-	} // end of paintPlayer method
+	} // end of paintRectangle method
 	
 	
 	//--------------------------------------------------------------------------//
@@ -386,8 +391,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		String leftScore = Integer.toString(userScore);
 		String rightScore = Integer.toString(pcScore);
 		g.setFont(scoreFont);
+		
+		// user score colour (left)
+		g.setColor(Color.cyan);
 		g.drawString(leftScore, SCORE_TEXT_X, SCORE_TEXT_Y);
+		
+		// enemy score colour (right)
+		g.setColor(Color.red);
 		g.drawString(rightScore, getWidth()-SCORE_TEXT_X, SCORE_TEXT_Y);
+		
+		
+		
 
 		
 	} // end of paintScores method
@@ -398,26 +412,26 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	private void paintWinner (Graphics g) {
 		
-		int xPosition = 0;
-		
-		if (gameWinner != null) {
-			
-			Font winnerFont = new Font (WINNER_FONT_FAMILY, Font.BOLD, WINNER_FONT_SIZE);
-			g.setFont(winnerFont);
-			xPosition = getWidth()/2;	
-		}
-		
+		Font winnerFont = new Font (WINNER_FONT_FAMILY, Font.BOLD, WINNER_FONT_SIZE);
+		String win;
 		if (gameWinner == user) {
 			
-			xPosition -= WINNER_TEXT_X;
+			win = winner[0];
+			g.setColor(Color.cyan);
 			
-		}	else {
-				
-				xPosition += WINNER_TEXT_Y;
-				
-			}
+		} else {
 			
-			g.drawString(WINNER_TEXT, xPosition, WINNER_TEXT_Y);
+			win = winner[1];
+			g.setColor(Color.red);
+			
+		}
+		
+		FontMetrics metrics = g.getFontMetrics(winnerFont);
+		
+		int x = (getWidth() - metrics.stringWidth(win)) / 2;
+		int y = ((getHeight() - metrics.getHeight()) / 2) + metrics.getAscent();
+		
+		g.drawString(win, x, y);
 		
 		
 	} // end of paintWinner method
@@ -457,15 +471,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			
 			
 		} // end of for loop
-		
-		
-		
-		
+
 		
 	} // end of paintUserHealth method
-	
-	
-	
 	
 	//--------------------------------------------------------------------------//
 	
