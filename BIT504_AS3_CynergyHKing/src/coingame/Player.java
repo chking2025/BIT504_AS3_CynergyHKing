@@ -12,7 +12,7 @@ public class Player extends Sprite {
 	
 	private static final int PLAYER_WIDTH = 30;
 	private static final int PLAYER_HEIGHT = 30;
-	private static final Color PLAYER_COLOUR = Color.cyan;
+	private static final Color PLAYER_COLOUR = new Color (0x337357); // dark green
 	private static final int DISTANCE_FROM_EDGE = 380;
 	
 	//--------------------------------------------------------------------------//

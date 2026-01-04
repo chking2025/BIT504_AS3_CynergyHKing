@@ -14,7 +14,7 @@ public class Enemy extends Sprite {
 	
 	private static final int ENEMY_WIDTH = 30;
 	private static final int ENEMY_HEIGHT = 30;
-	private static final Color ENEMY_COLOUR = Color.red;
+	private static final Color ENEMY_COLOUR = new Color (0xBF211E); // mahogany red
 	private static final int DISTANCE_FROM_EDGE = 40;
 	
 	//--------------------------------------------------------------------------//

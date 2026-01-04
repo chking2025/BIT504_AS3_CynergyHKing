@@ -19,7 +19,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 		// FINAL VARIABLES
 	
-		private final static Color BACKGROUND_COLOUR = Color.DARK_GRAY;
+		private final static Color BACKGROUND_COLOUR = new Color (0xA9A9A9); // grey
 		private final static int BOUNDARY_ZONE = 120;
 		private final static int TIMER_DELAY = 16;
 		private final static int USER_SPEED = 2;
@@ -41,13 +41,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 					
 					// MAIN HEADING
 					private final static String SS_TITLE = "Collect Em' All"; 
-					private final static Color SS_FONT_COLOUR = Color.orange;
+					private final static Color SS_FONT_COLOUR = new Color (0xFFD700);
 					private final static int SS_FONT_SIZE = 100;
 					private final static String SS_FONT_FAMILY = "Arial";
 					
 					// SUBHEADINGS
 					private final static int SS_SUBHEADING_FONT_SIZE = 50;
-					private final static Color SS_SUBHEADING_FONT_COLOUR = Color.pink;
+					private final static Color SS_SUBHEADING_FONT_COLOUR = new Color (0x337357);
 					private final static String ENTER = "- Press ENTER to Start";
 					private final static String WASD = "- Use WASD or Arrows to Move";
 					
@@ -428,11 +428,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.setFont(scoreFont);
 		
 		// user score colour (left)
-		g.setColor(Color.cyan);
+		g.setColor(new Color (0x337357));
 		g.drawString(leftScore, SCORE_TEXT_X, SCORE_TEXT_Y);
 		
 		// enemy score colour (right)
-		g.setColor(Color.red);
+		g.setColor(new Color (0xBF211E));
 		g.drawString(rightScore, getWidth()-SCORE_TEXT_X, SCORE_TEXT_Y);
 
 	} // end of paintScores method
@@ -451,15 +451,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		if (gameWinner == user) {
 			
 			win = winner[0];
-			g.setColor(Color.cyan);
+			g.setColor(new Color (0x337357));
 			
 		} else {
 			
 			win = winner[1];
-			g.setColor(Color.red);
+			g.setColor(new Color (0xBF211E));
 			
 		}
 		
+		// center align winning text
 		FontMetrics metrics = g.getFontMetrics(winnerFont);
 		
 		int x = (getWidth() - metrics.stringWidth(win)) / 2;

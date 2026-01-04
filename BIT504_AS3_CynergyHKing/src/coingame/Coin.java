@@ -14,7 +14,7 @@ public class Coin extends Sprite {
 	
 	private static final int COIN_WIDTH = 20;
 	private static final int COIN_HEIGHT = 20;
-	private static final Color COIN_COLOUR = Color.yellow;
+	private static final Color COIN_COLOUR = new Color (0xFFD700); // gold
 	
 	//--------------------------------------------------------------------------//
 	
