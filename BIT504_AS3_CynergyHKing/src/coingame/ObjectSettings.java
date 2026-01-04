@@ -300,26 +300,4 @@ public class ObjectSettings {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 } // end of ObjectMovement class

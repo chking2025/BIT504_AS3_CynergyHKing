@@ -14,7 +14,7 @@ public class Sprite {
 	private int xPosition, yPosition, xVelocity, yVelocity, 
 	width, height, initialXPosition, initialYPosition;
 	
-	private Color Colour = Color.orange;
+	private Color Colour;
 	
 	//--------------------------------------------------------------------------//
 	
