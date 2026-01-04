@@ -491,13 +491,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			if (heart < userHealth) {
 				
 				// draw pink heart for remaining health
-				g.setColor(Color.pink);
+				g.setColor(new Color (0xDC3B6B));
 				g.drawString(heartSymbol, userHealthX + (heart * spaces), userHealthY);
 				
 			} else {
 				
 				// draw a grey heart for lost lives
-				g.setColor(Color.gray);
+				g.setColor(Color.GRAY);
 				g.drawString(heartSymbol, userHealthX + (heart * spaces), userHealthY);
 				
 				
