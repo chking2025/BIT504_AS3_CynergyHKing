@@ -271,9 +271,8 @@ public class ObjectSettings {
 		// this method resets the game if a player incurs damage or collects a coin
 	
 		protected void resetGame(Sprite user, LinkedList<Coin> coins, LinkedList<Enemy> enemies, int width, int height, int speed) {
-
-			increaseSpeed += 0.5;
 			
+			increaseSpeed += 0.5;
 			double newVelocity = speed + increaseSpeed;
 			
 			// resets user position

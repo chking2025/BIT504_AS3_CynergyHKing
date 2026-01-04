@@ -241,6 +241,34 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		
 		case PAUSE: {
 			
+					// setting player speed
+						user.setxVelocity(0);
+						user.setyVelocity(0);
+						
+						if (up) user.setyVelocity(-USER_SPEED);
+						if (down) user.setyVelocity(USER_SPEED);
+						if (left) user.setxVelocity(-USER_SPEED);
+						if (right) user.setxVelocity(USER_SPEED);
+						
+						objectSettings.gameplay(user, COINS, ENEMIES, userScore, pcScore, getWidth(), getHeight(), BOUNDARY_ZONE);
+						
+						// Check coin collisions
+						
+						for (int i = COINS.size() - 1; i >= 0; i--) {
+							Coin c = COINS.get(i);
+							
+							if (user.getRectangle().intersects(c.getRectangle())) {
+								
+								COINS.remove(i);
+								userScore++;
+								
+							} // end of if statement
+							
+							
+						} // end of COINS for loop
+			
+						checkWin(user, userScore, pcScore, POINTS_TO_WIN);
+			
 			break;
 			
 		}
@@ -302,6 +330,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		
 		case GAMEOVER: {
 			
+			damaged.stop();
 			break;
 		}
 		case GAME_WON:{
@@ -323,11 +352,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	private void checkWin (Sprite user, int userScore, int pcScore, int pointLimit) {
 		
 		if (userScore >= pointLimit) {
+			
 			gameWinner = user;
 			gameState = GameState.GAME_WON;
 			
-		} else if (pcScore >= pointLimit) {
+		} else if (pcScore >= pointLimit || userHealth <= 0) {
 			
+			gameWinner = null;
 			gameState = GameState.GAMEOVER;
 			
 		} // end of if else statement
@@ -413,6 +444,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	private void paintWinner (Graphics g) {
 		
 		Font winnerFont = new Font (WINNER_FONT_FAMILY, Font.BOLD, WINNER_FONT_SIZE);
+		
+		g.setFont(winnerFont);
+		
 		String win;
 		if (gameWinner == user) {
 			
