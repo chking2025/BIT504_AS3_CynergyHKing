@@ -37,19 +37,22 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				private final static int WINNER_FONT_SIZE = 50;
 				private final static String WINNER_FONT_FAMILY = "Arial";
 				
-					// paintStartScreen: FINAL VARIABLES
+					// paintStartScreen & paintGameOverScreen: FINAL VARIABLES
 					
-					// MAIN HEADING
-					private final static String SS_TITLE = "Collect Em' All"; 
-					private final static Color SS_FONT_COLOUR = new Color (0xFFD700);
-					private final static int SS_FONT_SIZE = 100;
-					private final static String SS_FONT_FAMILY = "Arial";
+					// MAIN HEADINGS
+					private final static String SS_HEADING = "Collect Em' All"; 
+					private final static String GS_HEADING = "GAMEOVER!";
+					private final static Color SCREEN_FONT_COLOUR = new Color (0xFFD700);
+					private final static int SCREEN_FONT_SIZE = 100;
+					private final static String SCREEN_FONT_FAMILY = "Arial";
 					
 					// SUBHEADINGS
-					private final static int SS_SUBHEADING_FONT_SIZE = 30;
-					private final static Color SS_SUBHEADING_FONT_COLOUR = new Color (0x337357);
+					private final static int SCREEN_SUBHEADING_FONT_SIZE = 30;
+					private final static Color SCREEN_SUBHEADING_FONT_COLOUR = new Color (0x337357);
 					private final static String ENTER = "- Press ENTER to Start";
 					private final static String WASD = "- Use WASD or Arrows to Move";
+					private final static String RESTART = "- Press 'r' to restart game ";
+					private final static String EXIT = "- Press 'e' to exit game";
 					
 	
 		
@@ -332,12 +335,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			break;
 		}
 		
-		case GAMEOVER: {
+		case GAME_WON: {
 			
 			damaged.stop();
 			break;
 		}
-		case GAME_WON:{
+		case GAMEOVER:{
 			
 			
 			break;
@@ -378,18 +381,35 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	private void paintStartScreen (Graphics g) {
 		
 		// MAIN TITLE
-		g.setColor(SS_FONT_COLOUR);
-		g.setFont(new Font(SS_FONT_FAMILY, Font.BOLD, SS_FONT_SIZE));
-		g.drawString(SS_TITLE, getWidth() / 2 - 350, getHeight() / 2 - 50);
+		g.setColor(SCREEN_FONT_COLOUR);
+		g.setFont(new Font(SCREEN_FONT_FAMILY, Font.BOLD, SCREEN_FONT_SIZE));
+		g.drawString(SS_HEADING, getWidth() / 2 - 350, getHeight() / 2 - 50);
 		
 		// SUB-TITLES
-		g.setFont(new Font (SS_FONT_FAMILY, Font.PLAIN, SS_SUBHEADING_FONT_SIZE));
-		g.setColor(SS_SUBHEADING_FONT_COLOUR);
+		g.setFont(new Font (SCREEN_FONT_FAMILY, Font.PLAIN, SCREEN_SUBHEADING_FONT_SIZE));
+		g.setColor(SCREEN_SUBHEADING_FONT_COLOUR);
 		g.drawString(ENTER, getWidth() / 2 - 180, getHeight() / 2 + 20 );
 		g.drawString(WASD, getWidth() / 2 - 180, getHeight() / 2 + 70 );
 
 		
 	} // end of paintStartScreen method
+	
+	//--------------------------------------------------------------------------//
+	
+	private void paintGameOverScreen (Graphics g) {
+		
+		// MAIN HEADING
+		g.setColor(SCREEN_FONT_COLOUR);
+		g.setFont(new Font(SCREEN_FONT_FAMILY, Font.BOLD, SCREEN_FONT_SIZE));
+		g.drawString(GS_HEADING, getWidth() / 2 - 350, getHeight() / 2 - 50);
+				
+		// SUB HEADINGS
+		g.setFont(new Font (SCREEN_FONT_FAMILY, Font.PLAIN, SCREEN_SUBHEADING_FONT_SIZE));
+		g.setColor(SCREEN_SUBHEADING_FONT_COLOUR);
+		g.drawString(RESTART, getWidth() / 2 - 180, getHeight() / 2 + 20 );
+		g.drawString(EXIT, getWidth() / 2 - 180, getHeight() / 2 + 70 );
+
+	} // end of paintGameOverScreen
 	
 	//--------------------------------------------------------------------------//
 	
@@ -519,7 +539,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		super.paintComponent(g);
 		Toolkit.getDefaultToolkit().sync(); // prevents mouse lag
 		
-		/* when the game starts, the start screen will be paint
+		/* when the game starts, the start screen will be painted
 		 *  once the game begins, the coins and enemies will be painted to the screen
 		 *  the scores will also be painted to the game throughout the game
 		 */
@@ -549,13 +569,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		} // end of if else statement
 		
 		
-		// if game is won or the game is over, it will paint the winner
-		if (gameState == GameState.GAME_WON || gameState == GameState.GAMEOVER) {
+		// if game is won, it will paint the winner
+		if (gameState == GameState.GAME_WON) {
 			
 			paintWinner(g);
 		} // end of if statement
 		
-		
+		// once the game is over, the paintGameOverScreen will be painted and the user will get the choice to restart or exit the game
+		if (gameState == GameState.GAMEOVER) {
+			
+			
+			paintGameOverScreen(g);
+		}
 		
 	} // end of paintComponent method
 	
