@@ -268,9 +268,9 @@ public class ObjectSettings {
 		
 		//--------------------------------------------------------------------------//
 		
-		// this method resets the game if a player incurs damage or collects a coin
-	
-		protected void resetGame(Sprite user, LinkedList<Coin> coins, LinkedList<Enemy> enemies, int width, int height, int speed) {
+		// this method resets the objects in the game to different positions or increases the speed if a player incurs damage
+		
+		protected void resetObjects(Sprite user, LinkedList<Coin> coins, LinkedList<Enemy> enemies, int width, int height, int speed) {
 			
 			increaseSpeed += 0.5;
 			double newVelocity = speed + increaseSpeed;
@@ -292,11 +292,41 @@ public class ObjectSettings {
 				e.setyVelocity(newVelocity);
 			}
 			
-		} // end of resetGame method
+		} // end of resetObjects method
 		
 		//--------------------------------------------------------------------------//
 		
-	
+		protected void resetGame (int userScore, int pcScore, int userHealth, int maxUserHealth, int width, int height, int speed, String gameWinner, 
+		Sprite user, LinkedList<Coin> coins, LinkedList<Enemy> enemies) {
+			
+			userScore = 0;
+			pcScore = 0;
+			userHealth = maxUserHealth;
+			gameWinner = null;
+			coins.clear();
+			enemies.clear();
+			
+			// recreate game
+			createObjects(user, coins, enemies, width, height);
+			
+			// reset velocities for coin and enemy objects
+			
+			for (Coin c: coins) {
+				
+				c.setxVelocity(speed);
+				c.setyVelocity(speed);
+				
+			} // end of coins for each loop
+			
+			for (Enemy e: enemies) {
+				
+				e.setxVelocity(speed);
+				e.setyVelocity(speed);
+
+			} // end of enemies for each loop
+			
+			
+		} // end of resetGame method
 	
 	
 } // end of ObjectMovement class
