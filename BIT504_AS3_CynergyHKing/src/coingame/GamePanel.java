@@ -36,6 +36,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				// paintWinner: FINAL VARIABLES
 				private final static int WINNER_FONT_SIZE = 50;
 				private final static String WINNER_FONT_FAMILY = "Arial";
+				private final static int NEXT_SCREEN_FONT_SIZE = 30;
 				
 					// paintStartScreen & paintGameOverScreen: FINAL VARIABLES
 					
@@ -137,10 +138,42 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			if (key == KeyEvent.VK_ENTER || key == KeyEvent.VK_SPACE) {
 				
 				gameState = GameState.PLAYING;
+			} // end of inner if statement
+		} // end of START_SCREEN if statement
+		
+		//--------------------------------------------------------//
+		
+		// if the game is won, it will take user to the GAMEOVER screen
+		if (gameState == GameState.GAME_WON) {
+			
+			if (key == KeyEvent.VK_N) {
+				
+				gameState = GameState.GAMEOVER;
+				
+			} // end of inner if statement
+		} // end of GAME_WON if statement
+		
+		//--------------------------------------------------------//
+		
+		// if the game is over, user will need to click on 'r' to restart game or 'e' to exit the game
+		
+		if (gameState == GameState.GAMEOVER) {
+			
+			if (key == KeyEvent.VK_R) {
+				
+				objectSettings.resetGame(userScore, pcScore, userHealth, MAX_USER_HEALTH, getWidth(), getHeight(), COIN_ENEMY_SPEED, gameWinner, 
+				user, COINS, ENEMIES);
+				
+			} else if (key == KeyEvent.VK_E) {
+				
+				System.exit(0);
+				
 			}
 			
 			
-		} // end of if statement
+		} // end of GAMEOVER if statement
+		
+		//--------------------------------------------------------//
 		
 		// if the up, down, left or right keys are pressed, the user will be able to move up, down, left or right in the game
 		if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) up = true;
@@ -319,7 +352,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 					
 					// pauses game for 3 seconds when an enemy hits player
 					// resets position of enemies on the screen when player is hit by the enemies
-					objectSettings.resetGame(user, COINS, ENEMIES, getWidth(), getHeight(), COIN_ENEMY_SPEED);
+					objectSettings.resetObjects(user, COINS, ENEMIES, getWidth(), getHeight(), COIN_ENEMY_SPEED);
 					gameState = GameState.PAUSE;
 					damaged.start();
 					
@@ -338,6 +371,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		case GAME_WON: {
 			
 			damaged.stop();
+			
 			break;
 		}
 		case GAMEOVER:{
@@ -401,7 +435,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		// MAIN HEADING
 		g.setColor(SCREEN_FONT_COLOUR);
 		g.setFont(new Font(SCREEN_FONT_FAMILY, Font.BOLD, SCREEN_FONT_SIZE));
-		g.drawString(GS_HEADING, getWidth() / 2 - 350, getHeight() / 2 - 50);
+		g.drawString(GS_HEADING, getWidth() / 2 - 300, getHeight() / 2 - 50);
 				
 		// SUB HEADINGS
 		g.setFont(new Font (SCREEN_FONT_FAMILY, Font.PLAIN, SCREEN_SUBHEADING_FONT_SIZE));
@@ -486,7 +520,20 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		int x = (getWidth() - metrics.stringWidth(win)) / 2;
 		int y = ((getHeight() - metrics.getHeight()) / 2) + metrics.getAscent();
 		
+		// paints winner text
 		g.drawString(win, x, y);
+		
+		// paints nextScreen text below winner text
+		String nextScreen = "Press the 'n' key to go the next screen.";
+		
+		g.setFont(new Font (WINNER_FONT_FAMILY, Font.PLAIN, NEXT_SCREEN_FONT_SIZE));
+		g.setColor(new Color (0x337357));
+		
+		FontMetrics nextScreenMetrics = g.getFontMetrics();
+		int newX = (getWidth() - nextScreenMetrics.stringWidth(nextScreen)) / 2;
+		
+		g.drawString(nextScreen, newX, y + 50);
+		
 		
 		
 	} // end of paintWinner method
@@ -577,7 +624,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		
 		// once the game is over, the paintGameOverScreen will be painted and the user will get the choice to restart or exit the game
 		if (gameState == GameState.GAMEOVER) {
-			
 			
 			paintGameOverScreen(g);
 		}

@@ -296,7 +296,7 @@ public class ObjectSettings {
 		
 		//--------------------------------------------------------------------------//
 		
-		protected void resetGame (int userScore, int pcScore, int userHealth, int maxUserHealth, int width, int height, int speed, String gameWinner, 
+		protected void resetGame (int userScore, int pcScore, int userHealth, int maxUserHealth, int width, int height, int speed, Sprite gameWinner, 
 		Sprite user, LinkedList<Coin> coins, LinkedList<Enemy> enemies) {
 			
 			userScore = 0;
@@ -328,5 +328,6 @@ public class ObjectSettings {
 			
 		} // end of resetGame method
 	
+		//--------------------------------------------------------------------------//
 	
 } // end of ObjectMovement class
