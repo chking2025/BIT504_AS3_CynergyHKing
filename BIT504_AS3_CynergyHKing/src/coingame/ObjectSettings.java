@@ -296,37 +296,11 @@ public class ObjectSettings {
 		
 		//--------------------------------------------------------------------------//
 		
-		protected void resetGame (int userScore, int pcScore, int userHealth, int maxUserHealth, int width, int height, int speed, Sprite gameWinner, 
-		Sprite user, LinkedList<Coin> coins, LinkedList<Enemy> enemies) {
+		protected void resetSpeed() {
 			
-			userScore = 0;
-			pcScore = 0;
-			userHealth = maxUserHealth;
-			gameWinner = null;
-			coins.clear();
-			enemies.clear();
+			this.increaseSpeed = 0;
 			
-			// recreate game
-			createObjects(user, coins, enemies, width, height);
-			
-			// reset velocities for coin and enemy objects
-			
-			for (Coin c: coins) {
-				
-				c.setxVelocity(speed);
-				c.setyVelocity(speed);
-				
-			} // end of coins for each loop
-			
-			for (Enemy e: enemies) {
-				
-				e.setxVelocity(speed);
-				e.setyVelocity(speed);
-
-			} // end of enemies for each loop
-			
-			
-		} // end of resetGame method
+		} // end of resetSpeed method
 	
 		//--------------------------------------------------------------------------//
 	
