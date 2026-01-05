@@ -270,7 +270,7 @@ public class ObjectSettings {
 		
 		// this method resets the objects in the game to different positions or increases the speed if a player incurs damage
 		
-		protected void resetObjects(Sprite user, LinkedList<Coin> coins, LinkedList<Enemy> enemies, int width, int height, int speed) {
+		protected void resetObjects(Sprite user, LinkedList<Coin> coins, LinkedList<Enemy> enemies, int width, int height, double speed) {
 			
 			increaseSpeed += 0.5;
 			double newVelocity = speed + increaseSpeed;
