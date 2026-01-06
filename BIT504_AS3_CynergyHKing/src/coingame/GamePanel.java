@@ -16,6 +16,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	private boolean up, down, left, right; // boolean flags to indicate if a key is pressed up, down, left or right
 	private int userScore = 0, pcScore = 0, userHealth;
 	private Timer damaged;
+	private static String arrow = "\u25BA";
+	
+	// ARRAYS
+	
+	private static String[] winner = {"YOU WIN!", "THE ENEMY HAS WON!"};
+	private static String[] arrows = {"\u2190", "\u2192", "\u2191", "\u2193"};
 	
 		// FINAL VARIABLES
 	
@@ -23,13 +29,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		private final static int BOUNDARY_ZONE = 120;
 		private final static int TIMER_DELAY = 16;
 		private final static int USER_SPEED = 2;
-		private final static int COIN_ENEMY_SPEED = 1;
+		private final static double COIN_ENEMY_SPEED = 1.5;
 		private final static int POINTS_TO_WIN = 10;
 		private final static int MAX_USER_HEALTH = 10;
 			
 			// paintScores: FINAL VARIABLES
-			private final static int SCORE_TEXT_X = 100;
-			private final static int SCORE_TEXT_Y = 100;
+			private final static int SCORE_TEXT_X = 70;
+			private final static int SCORE_TEXT_Y = 90;
 			private final static int SCORE_FONT_SIZE = 50;
 			private final static String SCORE_FONT_FAMILY = "Arial";
 			
@@ -37,23 +43,29 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				private final static int WINNER_FONT_SIZE = 50;
 				private final static String WINNER_FONT_FAMILY = "Arial";
 				private final static int NEXT_SCREEN_FONT_SIZE = 30;
+				private final static String NEXT_SCREEN_TEXT = "Press the 'N' key to go the next screen.";
 				
 					// paintStartScreen & paintGameOverScreen: FINAL VARIABLES
 					
 					// MAIN HEADINGS
 					private final static String SS_HEADING = "Collect Em' All"; 
 					private final static String GS_HEADING = "GAMEOVER!";
-					private final static Color SCREEN_FONT_COLOUR = new Color (0xFFD700);
+					private final static Color SCREEN_FONT_COLOUR = new Color (0xFFD700); // gold
 					private final static int SCREEN_FONT_SIZE = 100;
 					private final static String SCREEN_FONT_FAMILY = "Arial";
 					
 					// SUBHEADINGS
-					private final static int SCREEN_SUBHEADING_FONT_SIZE = 30;
-					private final static Color SCREEN_SUBHEADING_FONT_COLOUR = new Color (0x337357);
-					private final static String ENTER = "- Press ENTER to Start";
-					private final static String WASD = "- Use WASD or Arrows to Move";
-					private final static String RESTART = "- Press 'r' to restart game ";
-					private final static String EXIT = "- Press 'e' to exit game";
+					private final static int INSTRUCTIONS_FONT_SIZE = 15;
+					private final static int GAMEPLAY_FONT_SIZE = 15;
+					private final static Color INSTRUCTIONS_FONT_COLOUR = new Color (0x337357); // dark green
+					private final static Color GAMEPLAY_TEXT_FONT_COLOUR = new Color (0xBF211E); // mahogany red
+					private final static String ENTER = arrow + " Press ENTER to Start";
+					private final static String ARROWS = arrow + " Use arrows " + "[" + arrows[0] + arrows[2] + arrows[3] + arrows[1] + "]" + " to move";
+					private final static String GAME_DESCRIPTION = "Collect all 10 coins to win the game.";
+					private final static String ENEMY_WARNING = "BEWARE: There will be just as many enemies trying to catch you, avoid them at all cost! ";
+					private final static String SPEED_WARNING = "The speed of the enemies will increase each time you take damage.";
+					private final static String RESTART = "- Press 'R' to restart game ";
+					private final static String EXIT = "- Press 'E' to exit game";
 					
 	
 		
@@ -72,10 +84,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	private final LinkedList<Coin> COINS = new LinkedList<>(); 
 	private final LinkedList<Enemy> ENEMIES = new LinkedList<>();
 	
-	
-	// ARRAYS
-	
-	private String[] winner = {"YOU WIN!", "THE ENEMY HAS WON!"};
 	
 	
 	// OBJECTS
@@ -157,14 +165,47 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		
 		// if the game is over, user will need to click on 'r' to restart game or 'e' to exit the game
 		
+		// restart game
 		if (gameState == GameState.GAMEOVER) {
 			
 			if (key == KeyEvent.VK_R) {
 				
-				objectSettings.resetGame(userScore, pcScore, userHealth, MAX_USER_HEALTH, getWidth(), getHeight(), COIN_ENEMY_SPEED, gameWinner, 
-				user, COINS, ENEMIES);
+				userScore = 0;
+				pcScore = 0;
+				userHealth = MAX_USER_HEALTH;
+				gameWinner = null;
+				COINS.clear();
+				ENEMIES.clear();
 				
-			} else if (key == KeyEvent.VK_E) {
+				// recreate game
+				objectSettings.createObjects(user, COINS, ENEMIES, getWidth(), getHeight());
+				
+				// reset velocities for coin and enemy objects
+				
+				for (Coin c: COINS) {
+					
+					c.setxVelocity(COIN_ENEMY_SPEED);
+					c.setyVelocity(COIN_ENEMY_SPEED);
+					
+				} // end of COINS for each loop
+				
+				for (Enemy enemies: ENEMIES) {
+					
+					enemies.setxVelocity(COIN_ENEMY_SPEED);
+					enemies.setyVelocity(COIN_ENEMY_SPEED);
+
+				} // end of ENEMIES for each loop
+				
+				// resets the speed
+				objectSettings.resetSpeed();
+				
+				// game restarts again
+				gameState = GameState.PLAYING;
+				
+			}
+			
+			// exit game
+			if (key == KeyEvent.VK_E) {
 				
 				System.exit(0);
 				
@@ -176,10 +217,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		//--------------------------------------------------------//
 		
 		// if the up, down, left or right keys are pressed, the user will be able to move up, down, left or right in the game
-		if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) up = true;
-		if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) down = true;
-		if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) left = true;
-		if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) right = true;
+		if (key == KeyEvent.VK_UP) up = true;
+		if (key == KeyEvent.VK_DOWN) down = true;
+		if (key == KeyEvent.VK_LEFT) left = true;
+		if (key == KeyEvent.VK_RIGHT) right = true;
 		
 	} // end of keyPressed method
 	
@@ -273,6 +314,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			
 		} // end of START_SCREEN
 		
+		//--------------------------------------------------------//
+		
 		case PAUSE: {
 			
 					// setting player speed
@@ -312,6 +355,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			break;
 			
 		}
+		
+		//--------------------------------------------------------//
 		
 		case PLAYING: {
 			
@@ -368,12 +413,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			break;
 		}
 		
+		//--------------------------------------------------------//
+		
 		case GAME_WON: {
 			
 			damaged.stop();
 			
 			break;
 		}
+		
+		//--------------------------------------------------------//
+		
 		case GAMEOVER:{
 			
 			
@@ -419,11 +469,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.setFont(new Font(SCREEN_FONT_FAMILY, Font.BOLD, SCREEN_FONT_SIZE));
 		g.drawString(SS_HEADING, getWidth() / 2 - 350, getHeight() / 2 - 50);
 		
-		// SUB-TITLES
-		g.setFont(new Font (SCREEN_FONT_FAMILY, Font.PLAIN, SCREEN_SUBHEADING_FONT_SIZE));
-		g.setColor(SCREEN_SUBHEADING_FONT_COLOUR);
-		g.drawString(ENTER, getWidth() / 2 - 180, getHeight() / 2 + 20 );
-		g.drawString(WASD, getWidth() / 2 - 180, getHeight() / 2 + 70 );
+		// GAMEPLAY DESCRIPTION
+		g.setColor(GAMEPLAY_TEXT_FONT_COLOUR);
+		g.setFont(new Font (SCREEN_FONT_FAMILY, Font.PLAIN, GAMEPLAY_FONT_SIZE));
+		g.drawString(GAME_DESCRIPTION, getWidth()/2 - 120, getHeight() / 2 + 5);
+		g.drawString(ENEMY_WARNING, getWidth()/2 - 280, getHeight() / 2 + 30);
+		g.drawString(SPEED_WARNING, getWidth()/2 - 225, getHeight() / 2 + 55);
+		
+		// GAMEPLAY INSTRUCTIONS
+		g.setFont(new Font (SCREEN_FONT_FAMILY, Font.BOLD, INSTRUCTIONS_FONT_SIZE));
+		g.setColor(INSTRUCTIONS_FONT_COLOUR);
+		g.drawString(ENTER, getWidth() / 2 - 120, getHeight() / 2 + 100 );
+		g.drawString(ARROWS, getWidth() / 2 - 120, getHeight() / 2 + 120 );
 
 		
 	} // end of paintStartScreen method
@@ -438,8 +495,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.drawString(GS_HEADING, getWidth() / 2 - 300, getHeight() / 2 - 50);
 				
 		// SUB HEADINGS
-		g.setFont(new Font (SCREEN_FONT_FAMILY, Font.PLAIN, SCREEN_SUBHEADING_FONT_SIZE));
-		g.setColor(SCREEN_SUBHEADING_FONT_COLOUR);
+		g.setFont(new Font (SCREEN_FONT_FAMILY, Font.PLAIN, INSTRUCTIONS_FONT_SIZE));
+		g.setColor(INSTRUCTIONS_FONT_COLOUR);
 		g.drawString(RESTART, getWidth() / 2 - 180, getHeight() / 2 + 20 );
 		g.drawString(EXIT, getWidth() / 2 - 180, getHeight() / 2 + 70 );
 
@@ -493,24 +550,27 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	//--------------------------------------------------------------------------//
 	
-	// paint method for winner text
+	// paint method for winner and nextScreen text
 	
 	private void paintWinner (Graphics g) {
+		
+		// paints winner text
 		
 		Font winnerFont = new Font (WINNER_FONT_FAMILY, Font.BOLD, WINNER_FONT_SIZE);
 		
 		g.setFont(winnerFont);
 		
 		String win;
+		
 		if (gameWinner == user) {
 			
 			win = winner[0];
-			g.setColor(new Color (0x337357));
+			g.setColor(new Color (0x337357)); // dark green
 			
 		} else {
 			
 			win = winner[1];
-			g.setColor(new Color (0xBF211E));
+			g.setColor(new Color (0xBF211E)); // mahogany red
 			
 		}
 		
@@ -523,21 +583,20 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		// paints winner text
 		g.drawString(win, x, y);
 		
+		//--------------------------------------------------------//
+		
 		// paints nextScreen text below winner text
-		String nextScreen = "Press the 'n' key to go the next screen.";
 		
 		g.setFont(new Font (WINNER_FONT_FAMILY, Font.PLAIN, NEXT_SCREEN_FONT_SIZE));
-		g.setColor(new Color (0x337357));
+		g.setColor(new Color (0x337357)); // dark green
 		
+		// center aligns text, ensuring its below the winner text
 		FontMetrics nextScreenMetrics = g.getFontMetrics();
-		int newX = (getWidth() - nextScreenMetrics.stringWidth(nextScreen)) / 2;
+		int newX = (getWidth() - nextScreenMetrics.stringWidth(NEXT_SCREEN_TEXT)) / 2;
 		
-		g.drawString(nextScreen, newX, y + 50);
-		
-		
-		
+		g.drawString(NEXT_SCREEN_TEXT, newX, y + 50);
+
 	} // end of paintWinner method
-	
 	
 	//--------------------------------------------------------------------------//
 	
@@ -546,8 +605,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	private void paintUserHealth (Graphics g) {
 		
 		// positioning of the hearts
-		int userHealthX = 100;
-		int userHealthY = 140;
+		int userHealthX = 80;
+		int userHealthY = 120;
 		int spaces = 30;
 		String heartSymbol = "\u2665";
 		
@@ -558,7 +617,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			if (heart < userHealth) {
 				
 				// draw pink heart for remaining health
-				g.setColor(new Color (0xFDB0C0));
+				g.setColor(new Color (0xFDB0C0)); // pink
 				g.drawString(heartSymbol, userHealthX + (heart * spaces), userHealthY);
 				
 			} else {
@@ -569,11 +628,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				
 				
 			} // end of if else statement
-			
-			
-			
-		} // end of for loop
 
+		} // end of for loop
 		
 	} // end of paintUserHealth method
 	
