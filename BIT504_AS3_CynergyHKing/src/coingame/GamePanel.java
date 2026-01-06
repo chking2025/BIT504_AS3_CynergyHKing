@@ -29,7 +29,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		private final static int BOUNDARY_ZONE = 120;
 		private final static int TIMER_DELAY = 16;
 		private final static int USER_SPEED = 2;
-		private final static double COIN_ENEMY_SPEED = 1.5;
+		private final static double COIN_ENEMY_SPEED = 2;
 		private final static int POINTS_TO_WIN = 10;
 		private final static int MAX_USER_HEALTH = 10;
 			
@@ -64,8 +64,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 					private final static String GAME_DESCRIPTION = "Collect all 10 coins to win the game.";
 					private final static String ENEMY_WARNING = "BEWARE: There will be just as many enemies trying to catch you, avoid them at all cost! ";
 					private final static String SPEED_WARNING = "The speed of the enemies will increase each time you take damage.";
-					private final static String RESTART = "- Press 'R' to restart game ";
-					private final static String EXIT = "- Press 'E' to exit game";
+					private final static String RESTART = arrow + " Press 'R' to restart game ";
+					private final static String EXIT = arrow + " Press 'E' to exit game";
 					
 	
 		
@@ -83,7 +83,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	private final LinkedList<Coin> COINS = new LinkedList<>(); 
 	private final LinkedList<Enemy> ENEMIES = new LinkedList<>();
-	
 	
 	
 	// OBJECTS
@@ -262,6 +261,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	} // end of actionPerformed method
 
 	//--------------------------------------------------------------------------//
+	
+	// this method controls the game logic
 	
 	private void update () {
 		
@@ -450,7 +451,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		} else if (pcScore >= pointLimit || userHealth <= 0) {
 			
 			gameWinner = null;
-			gameState = GameState.GAMEOVER;
+			gameState = GameState.GAME_WON;
 			
 		} // end of if else statement
 		
@@ -495,10 +496,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.drawString(GS_HEADING, getWidth() / 2 - 300, getHeight() / 2 - 50);
 				
 		// SUB HEADINGS
-		g.setFont(new Font (SCREEN_FONT_FAMILY, Font.PLAIN, INSTRUCTIONS_FONT_SIZE));
+		g.setFont(new Font (SCREEN_FONT_FAMILY, Font.BOLD, INSTRUCTIONS_FONT_SIZE));
 		g.setColor(INSTRUCTIONS_FONT_COLOUR);
-		g.drawString(RESTART, getWidth() / 2 - 180, getHeight() / 2 + 20 );
-		g.drawString(EXIT, getWidth() / 2 - 180, getHeight() / 2 + 70 );
+		g.drawString(RESTART, getWidth() / 2 - 120, getHeight() / 2 + 20 );
+		g.drawString(EXIT, getWidth() / 2 - 120, getHeight() / 2 + 50 );
 
 	} // end of paintGameOverScreen
 	
@@ -538,13 +539,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		String rightScore = Integer.toString(pcScore);
 		g.setFont(scoreFont);
 		
+		FontMetrics metrics = g.getFontMetrics(scoreFont);
+		int rightScoreWidth = metrics.stringWidth(rightScore);
+		
 		// user score colour (left)
 		g.setColor(new Color (0x337357));
 		g.drawString(leftScore, SCORE_TEXT_X, SCORE_TEXT_Y);
 		
 		// enemy score colour (right)
 		g.setColor(new Color (0xBF211E));
-		g.drawString(rightScore, getWidth()-SCORE_TEXT_X, SCORE_TEXT_Y);
+		int rightX = getWidth() - SCORE_TEXT_X - rightScoreWidth;
+		g.drawString(rightScore, rightX, SCORE_TEXT_Y);
 
 	} // end of paintScores method
 	
@@ -605,7 +610,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	private void paintUserHealth (Graphics g) {
 		
 		// positioning of the hearts
-		int userHealthX = 80;
+		int userHealthX = 70;
 		int userHealthY = 120;
 		int spaces = 30;
 		String heartSymbol = "\u2665";
