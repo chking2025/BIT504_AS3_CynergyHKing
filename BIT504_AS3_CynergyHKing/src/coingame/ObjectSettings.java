@@ -272,7 +272,7 @@ public class ObjectSettings {
 		
 		protected void resetObjects(Sprite user, LinkedList<Coin> coins, LinkedList<Enemy> enemies, int width, int height, double speed) {
 			
-			increaseSpeed += 0.5;
+			increaseSpeed += 0.2;
 			double newVelocity = speed + increaseSpeed;
 			
 			// resets user position
