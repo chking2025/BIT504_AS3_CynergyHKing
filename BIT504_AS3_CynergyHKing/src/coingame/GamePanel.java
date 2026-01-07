@@ -19,7 +19,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	private static String arrow = "\u25BA";
 	
 	// ARRAYS
-	
+
 	private static String[] winner = {"YOU WIN!", "THE ENEMY HAS WON!"};
 	private static String[] arrows = {"\u2190", "\u2192", "\u2191", "\u2193"};
 	
@@ -89,6 +89,28 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	private Player user;
 	private Sprite gameWinner;
+	
+	//--------------------------------------------------------------------------//
+	
+	// GETTERS
+	
+	public int getUserScore() {
+		return userScore;
+	}
+
+	public int getUserHealth() {
+		return userHealth;
+	}
+	
+	// SETTERS
+
+	public void setUserScore(int userScore) {
+		this.userScore = userScore;
+	}
+
+	public void setUserHealth(int userHealth) {
+		this.userHealth = userHealth;
+	}
 	
 	//--------------------------------------------------------------------------//
 	
