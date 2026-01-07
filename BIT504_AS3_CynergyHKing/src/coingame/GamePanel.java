@@ -98,18 +98,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		return userScore;
 	}
 
-	public int getUserHealth() {
-		return userHealth;
+	public int getMAX_USER_HEALTH() {
+		return MAX_USER_HEALTH;
 	}
 	
 	// SETTERS
 
 	public void setUserScore(int userScore) {
 		this.userScore = userScore;
-	}
-
-	public void setUserHealth(int userHealth) {
-		this.userHealth = userHealth;
 	}
 	
 	//--------------------------------------------------------------------------//
