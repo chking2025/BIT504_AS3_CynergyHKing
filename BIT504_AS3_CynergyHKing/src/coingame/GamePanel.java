@@ -56,7 +56,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 					
 					// SUBHEADINGS
 					private final static int INSTRUCTIONS_FONT_SIZE = 15;
-					private final static int GAMEPLAY_FONT_SIZE = 15;
+					private final static int GAMEPLAY_FONT_SIZE = 18;
 					private final static Color INSTRUCTIONS_FONT_COLOUR = new Color (0x337357); // dark green
 					private final static Color GAMEPLAY_TEXT_FONT_COLOUR = new Color (0xBF211E); // mahogany red
 					private final static String ENTER = arrow + " Press ENTER to Start";
@@ -491,9 +491,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		// GAMEPLAY DESCRIPTION
 		g.setColor(GAMEPLAY_TEXT_FONT_COLOUR);
 		g.setFont(new Font (SCREEN_FONT_FAMILY, Font.PLAIN, GAMEPLAY_FONT_SIZE));
-		g.drawString(GAME_DESCRIPTION, getWidth()/2 - 120, getHeight() / 2 + 5);
-		g.drawString(ENEMY_WARNING, getWidth()/2 - 280, getHeight() / 2 + 30);
-		g.drawString(SPEED_WARNING, getWidth()/2 - 225, getHeight() / 2 + 55);
+		g.drawString(GAME_DESCRIPTION, getWidth()/2 - 145, getHeight() / 2 + 5);
+		g.drawString(ENEMY_WARNING, getWidth()/2 - 355, getHeight() / 2 + 30);
+		g.drawString(SPEED_WARNING, getWidth()/2 - 275, getHeight() / 2 + 55);
 		
 		// GAMEPLAY INSTRUCTIONS
 		g.setFont(new Font (SCREEN_FONT_FAMILY, Font.BOLD, INSTRUCTIONS_FONT_SIZE));
